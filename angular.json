@@ -54,7 +54,7 @@
                 }
               ],
               "outputHashing": "all",
-              "baseHref": "/ng-matero/"
+              "baseHref": "/"
             },
             "development": {
               "optimization": false,
