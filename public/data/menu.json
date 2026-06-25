@@ -1,0 +1,46 @@
+{
+  "menu": [
+    {
+      "route": "dashboard",
+      "name": "dashboard",
+      "type": "link",
+      "icon": "dashboard"
+    },
+    {
+      "route": "profile/overview",
+      "name": "profile",
+      "type": "link",
+      "icon": "account_circle"
+    },
+    {
+      "route": "academics",
+      "name": "academics",
+      "type": "link",
+      "icon": "school",
+      "permissions": {
+        "only": ["USER"]
+      }
+    },
+    {
+      "route": "manage-students",
+      "name": "manage_students",
+      "type": "sub",
+      "icon": "people",
+      "permissions": {
+        "only": ["ADMIN"]
+      },
+      "children": [
+        {
+          "route": "students",
+          "name": "students",
+          "type": "link"
+        },
+        {
+          "route": "academic-records",
+          "name": "academic_records",
+          "type": "link"
+        }
+      ]
+    }
+  ]
+}

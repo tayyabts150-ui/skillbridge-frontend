@@ -1,0 +1,177 @@
+.section-subtitle {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 1.125rem;
+    font-weight: 800;
+    color: var(--mat-sys-on-surface);
+    letter-spacing: -0.5px;
+
+    .subtitle-icon {
+        width: 20px;
+        height: 20px;
+        font-size: 20px;
+        color: var(--mat-sys-primary);
+    }
+}
+
+.selection-badge {
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--mat-sys-primary);
+    background: rgb(from var(--mat-sys-primary) r g b / 0.1);
+    border-radius: 99px;
+}
+
+.skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.selectable-chip {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    padding: 10px 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--mat-sys-on-surface-variant);
+    cursor: pointer;
+    outline: none;
+    background: var(--mat-sys-surface-container-high);
+    border: 1px solid var(--mat-sys-outline);
+    border-radius: 100px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+        background: var(--mat-sys-surface-container-highest);
+        border-color: var(--mat-sys-primary);
+        transform: translateY(-2px);
+    }
+
+    &:focus-visible {
+        box-shadow: 0 0 0 2px var(--mat-sys-primary);
+    }
+
+    &.selected {
+        color: var(--mat-sys-primary);
+        background: rgb(from var(--mat-sys-primary) r g b / 0.05);
+        border-color: var(--mat-sys-primary);
+        box-shadow: 0 0 15px rgb(from var(--mat-sys-primary) r g b / 0.1);
+
+        .check-icon {
+            width: 16px;
+            height: 16px;
+            font-size: 16px;
+            color: var(--mat-sys-primary);
+        }
+    }
+}
+
+
+.interest-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+}
+
+.interest-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+    padding: 14px 12px;
+    cursor: pointer;
+    background: var(--mat-sys-surface-container);
+    border: 1.5px solid var(--mat-sys-outline);
+    border-radius: 14px;
+    transition: all 0.2s ease;
+
+    &__icon {
+        font-size: 1.5rem;
+    }
+
+    &__label {
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: var(--mat-sys-on-surface-variant);
+        text-align: center;
+    }
+
+    &--selected {
+        background: color-mix(in srgb, var(--mat-sys-primary) 10%, transparent);
+        border-color: var(--mat-sys-primary);
+        box-shadow: 0 4px 12px color-mix(in srgb, var(--mat-sys-primary) 20%, transparent);
+
+        .interest-card__label {
+            font-weight: 600;
+            color: var(--mat-sys-primary);
+        }
+    }
+
+    &:hover:not(&--selected) {
+        border-color: var(--mat-sys-on-surface-variant);
+        transform: translateY(-2px);
+    }
+}
+
+.interest-tick {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+    color: var(--mat-sys-primary);
+}
+
+.custom-input-group {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.skill-input {
+    flex: 1;
+    padding: 14px 20px;
+    color: var(--mat-sys-on-surface);
+    outline: none;
+    background: var(--mat-sys-surface-container-low);
+    border: 1px solid var(--mat-sys-outline);
+    border-radius: 16px;
+    transition: border-color 0.3s ease;
+
+    &:focus {
+        border-color: var(--mat-sys-primary);
+        box-shadow: 0 0 15px rgb(from var(--mat-sys-primary) r g b / 0.1);
+    }
+}
+
+.course-chip {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    padding: 8px 16px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--mat-sys-primary);
+    background: rgb(from var(--mat-sys-primary) r g b / 0.05);
+    border: 1px solid rgb(from var(--mat-sys-primary) r g b / 0.2);
+    border-radius: 100px;
+
+    mat-icon {
+        width: 16px;
+        height: 16px;
+        font-size: 16px;
+        cursor: pointer;
+        opacity: 0.6;
+
+        &:hover {
+            color: var(--mat-sys-error);
+            opacity: 1;
+        }
+    }
+}

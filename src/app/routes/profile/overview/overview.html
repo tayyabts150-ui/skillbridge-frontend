@@ -1,0 +1,230 @@
+<div class="row">
+  @if (isLoading()) {
+    <!-- Left Column Skeleton -->
+    <div class="col-md-6">
+      <section class="profile-section m-b-24">
+        <mat-card class="profile-card skeleton">
+          <div class="skeleton-line title m-b-24"></div>
+          <div class="personal-grid">
+            @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+              <div class="info-item">
+                <div class="skeleton-line short m-b-8"></div>
+                <div class="skeleton-line"></div>
+              </div>
+            }
+          </div>
+        </mat-card>
+      </section>
+    </div>
+
+    <!-- Right Column Skeleton -->
+    <div class="col-md-6">
+      <section class="profile-section m-b-24">
+        <mat-card class="profile-card skeleton">
+          <div class="skeleton-line title m-b-24"></div>
+          <div class="skeleton-line m-b-16"></div>
+          <div class="skeleton-line m-b-32"></div>
+        </mat-card>
+      </section>
+      <section class="profile-section">
+        <mat-card class="profile-card skeleton">
+          <div class="skeleton-line title m-b-24"></div>
+          @for (i of [1, 2, 3, 4, 5]; track i) {
+            <div class="skeleton-line m-b-16"></div>
+            <div class="skeleton-line progress m-b-16"></div>
+          }
+        </mat-card>
+      </section>
+    </div>
+  } @else {
+    <!-- Left Column -->
+    <div class="col-md-6">
+      <!-- Personal Information Card -->
+      <section class="profile-section m-b-24">
+        <mat-card class="profile-card profile-card--personal">
+          <mat-card-header class="m-b-16">
+            <div class="d-flex w-full justify-content-between align-items-center">
+              <h2 class="section-title m-0">Personal Information</h2>
+              <button mat-button color="primary" routerLink="/profile/settings">
+                <mat-icon>edit</mat-icon>
+                Edit Profile
+              </button>
+            </div>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="personal-grid">
+              <div class="info-item">
+                <span class="info-label">Full Name</span>
+                <span class="info-value">{{ personalInfo()?.fullName }}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Email</span>
+                <span class="info-value">{{ personalInfo()?.email }}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Date of Birth</span>
+                <span class="info-value">
+                  {{ personalInfo()?.dateOfBirth | date: 'mediumDate' }}
+                </span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Gender</span>
+                <span class="info-value">{{ genderLabel }}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Level</span>
+                <span class="info-value">{{ educationLevelLabel }}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Country</span>
+                <span class="info-value">{{ personalInfo()?.country }}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">City</span>
+                <span class="info-value">{{ personalInfo()?.city }}</span>
+              </div>
+              <div class="info-item w-full">
+                <span class="info-label">Phone</span>
+                <span class="info-value">{{ personalInfo()?.phoneNumber }}</span>
+              </div>
+              <div class="info-item w-full">
+                <span class="info-label">Short Bio</span>
+                <p class="info-value bio-text">
+                  {{ personalInfo()?.shortBio || 'Tell us about yourself...' }}
+                </p>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </section>
+    </div>
+
+    <!-- Right Column -->
+    <div class="col-md-6">
+      <!-- Skills & Interests Card -->
+      <section class="profile-section m-b-24">
+        <mat-card class="profile-card profile-card--skills">
+          <mat-card-header class="m-b-16">
+            <div class="d-flex w-full justify-content-between align-items-center">
+              <h2 class="section-title m-0">Skills & Interests</h2>
+              <button mat-button color="primary" (click)="editSkills()">
+                <mat-icon>edit</mat-icon>
+                Edit
+              </button>
+            </div>
+          </mat-card-header>
+          <mat-card-content>
+            @if (hasSkills) {
+              <div class="skills-block m-b-24">
+                <h4 class="block-subtitle m-b-12">Skills</h4>
+                <div class="chip-row d-flex flex-wrap gap-8">
+                  @for (skill of preferences()?.skills; track skill.id) {
+                    <span class="skill-chip">{{ skill.name }}</span>
+                  }
+                </div>
+              </div>
+
+              <h4 class="block-subtitle m-b-12">Career Interests</h4>
+              <div class="interest-grid m-b-24">
+                @for (interest of displayInterests; track interest.name) {
+                  <div class="interest-card">
+                    <mat-icon color="primary">{{ interest.icon }}</mat-icon>
+                    <span>{{ interest.name }}</span>
+                  </div>
+                }
+              </div>
+
+              <div class="course-skills-block">
+                <h4 class="block-subtitle m-b-12">Course-Based Skills</h4>
+                <div class="chip-row d-flex flex-wrap gap-8">
+                  @for (skill of preferences()?.courseSkills; track skill) {
+                    <span class="course-chip">{{ skill }}</span>
+                  }
+                </div>
+              </div>
+            } @else {
+              <div class="empty-profile-state text-center p-y-24 hvr-glow">
+                <div class="empty-icon-circle m-b-16 tertiary">
+                  <mat-icon>auto_awesome</mat-icon>
+                </div>
+                <h4 class="empty-title">No Skills or Interests</h4>
+                <p class="empty-subtitle">Tell us what you're good at and what you love to do.</p>
+                <button
+                  mat-flat-button
+                  color="tertiary"
+                  (click)="goToOnboarding()"
+                  class="hvr-lift mt-2"
+                >
+                  Add Skills
+                </button>
+              </div>
+            }
+          </mat-card-content>
+        </mat-card>
+      </section>
+
+      <!-- Personality Profile Card -->
+      <section class="profile-section">
+        <mat-card class="profile-card profile-card--personality">
+          <mat-card-header class="m-b-16">
+            <div class="d-flex w-full justify-content-between align-items-center">
+              <h2 class="section-title m-0">Personality Profile</h2>
+            </div>
+          </mat-card-header>
+          <mat-card-content>
+            @if (hasPersonality) {
+              <div class="trait-bars m-b-24">
+                @for (trait of traitConfig; track trait.key) {
+                  <div class="trait-row">
+                    <div class="trait-row__meta">
+                      <span class="trait-row__icon">{{ trait.icon }}</span>
+                      <div>
+                        <span class="trait-row__name">{{ trait.label }}</span>
+                        <span class="trait-row__desc">{{ trait.desc }}</span>
+                      </div>
+                    </div>
+                    <div class="trait-bar-wrap">
+                      <div class="trait-bar">
+                        <div
+                          class="trait-bar__fill"
+                          [style.backgroundColor]="trait.color"
+                          [style.width.%]="personalityResult()?.[trait.key]"
+                        ></div>
+                      </div>
+                      <span class="trait-bar__score">{{ personalityResult()?.[trait.key] }}%</span>
+                    </div>
+                  </div>
+                }
+              </div>
+
+              @if (personalityResult()?.summary) {
+                <div class="summary-card">
+                  <h4>Analysis Summary</h4>
+                  <p>{{ personalityResult()?.summary }}</p>
+                </div>
+              }
+            } @else {
+              <div class="empty-profile-state text-center p-y-24 hvr-glow">
+                <div class="empty-icon-circle m-b-16 secondary">
+                  <mat-icon>psychology</mat-icon>
+                </div>
+                <h4 class="empty-title">Assessment Incomplete</h4>
+                <p class="empty-subtitle">
+                  Understand your learning style and career fit with a personality test.
+                </p>
+                <button
+                  mat-flat-button
+                  color="secondary"
+                  (click)="goToOnboarding()"
+                  class="hvr-lift mt-2"
+                >
+                  Start Assessment
+                </button>
+              </div>
+            }
+          </mat-card-content>
+        </mat-card>
+      </section>
+    </div>
+  }
+</div>

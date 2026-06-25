@@ -1,0 +1,94 @@
+<div class="roadmap-wrapper">
+  @if (isLoading()) {
+    <mat-card class="state-card">
+      <mat-card-content>
+        <div class="state-spinner"></div>
+        <h2>Generating roadmap...</h2>
+        <p>Please wait while AI prepares your career roadmap.</p>
+      </mat-card-content>
+    </mat-card>
+  } @else if (error()) {
+    <mat-card class="state-card state-card--error">
+      <mat-card-content>
+        <h2>Something went wrong</h2>
+        <p>{{ error() }}</p>
+      </mat-card-content>
+    </mat-card>
+  } @else if (roadmap()) {
+    <section class="result-head">
+      <span class="result-label">Career roadmap for</span>
+      <h1>{{ roadmap()?.role }}</h1>
+    </section>
+
+    <div class="grid">
+      <mat-card class="span-2">
+        <mat-card-content>
+          <h2>📚 What You Should Learn</h2>
+
+          <div class="learn-grid">
+            @for (cat of roadmap()?.learn; track cat.category) {
+              <div class="learn-col">
+                <h3>{{ cat.category }}</h3>
+                <ul>
+                  @for (item of cat.items; track item) {
+                    <li>{{ item }}</li>
+                  }
+                </ul>
+              </div>
+            }
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-content>
+          <h2>⚡ Role Basics</h2>
+          <ol>
+            @for (basic of roadmap()?.basics; track basic) {
+              <li>{{ basic }}</li>
+            }
+          </ol>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-content>
+          <h2>🏆 Free Certifications</h2>
+
+          @for (cert of roadmap()?.certifications; track cert.name) {
+            <a
+              class="link"
+              [href]="cert.url"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <strong>{{ cert.name }}</strong>
+              <span>{{ cert.provider }}</span>
+              <p>{{ cert.description }}</p>
+            </a>
+          }
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="span-2">
+        <mat-card-content>
+          <h2>💼 Where to Find Jobs</h2>
+
+          @for (job of roadmap()?.jobListings; track job.platform) {
+            <a
+              class="link"
+              [href]="job.url"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <strong>{{ job.platform }}</strong>
+              <p>{{ job.description }}</p>
+            </a>
+          }
+        </mat-card-content>
+      </mat-card>
+    </div>
+  }
+  
+</div>
+<app-career-chat-widget [role]="roadmap()?.role || ''"></app-career-chat-widget>

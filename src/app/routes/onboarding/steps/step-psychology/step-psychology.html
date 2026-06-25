@@ -1,0 +1,158 @@
+<div class="step-container">
+  <div class="step-header">
+    <div class="step-icon-badge">🧠</div>
+    <h2 class="step-title">Personality Assessment</h2>
+    <p class="step-desc">
+      Rate how well each statement describes you on a scale of 1 (Not at all) to 5 (Very much)
+    </p>
+  </div>
+
+  @if (isLoading() && questions().length === 0) {
+    <div class="skeleton-questions">
+      <div class="skeleton-progress"></div>
+      @for (i of [1, 2, 3]; track i) {
+        <div class="skeleton-card">
+          <div class="skeleton-card__num"></div>
+          <div class="skeleton-card__body">
+            <div class="skeleton-card__text"></div>
+            <div class="skeleton-card__options"></div>
+          </div>
+        </div>
+      }
+    </div>
+  } @else if (!showResults()) {
+    <!-- Progress -->
+    <div class="assessment-progress">
+      <div class="assessment-progress__bar">
+        <div class="assessment-progress__fill" [style.width.%]="progress()"></div>
+      </div>
+      <span class="assessment-progress__label">
+        {{ answeredCount() }} / {{ questions().length }} answered
+      </span>
+    </div>
+
+    <!-- Questions -->
+    <div class="questions-list">
+      @for (q of questions(); track q.id; let i = $index) {
+        <div class="question-card" [class.question-card--answered]="answers()[q.id]">
+          <div class="question-card__num">{{ i + 1 }}</div>
+          <div class="question-card__body">
+            <p class="question-card__text">{{ q.text }}</p>
+            <div class="likert-scale">
+              <span class="likert-scale__label">Not at all</span>
+              <div class="likert-scale__options">
+                @for (val of [1, 2, 3, 4, 5]; track val) {
+                  <button
+                    type="button"
+                    class="likert-btn"
+                    [class.likert-btn--selected]="answers()[q.id] === val"
+                    (click)="setAnswer(q.id, val)"
+                    [disabled]="isLoading()"
+                  >
+                    {{ val }}
+                  </button>
+                }
+              </div>
+              <span class="likert-scale__label">Very much</span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Actions -->
+    <div class="step-actions">
+      <button
+        type="button"
+        mat-button
+        class="btn-back"
+        (click)="back.emit()"
+        [disabled]="isLoading()"
+      >
+        <mat-icon>arrow_back</mat-icon>
+        Back
+      </button>
+      <div style="flex: 1"></div>
+      <button type="button" mat-button class="btn-skip" (click)="skip()" [disabled]="isLoading()">
+        Skip this step
+      </button>
+      <button
+        type="button"
+        mat-flat-button
+        color="primary"
+        class="btn-next"
+        [disabled]="!allAnswered() || isLoading()"
+        (click)="submitAssessment()"
+      >
+        @if (isLoading()) {
+          <mat-spinner diameter="18" class="btn-spinner" />
+          Analyzing...
+        } @else {
+          <ng-container>
+            Submit Assessment
+            <mat-icon>assessment</mat-icon>
+          </ng-container>
+        }
+      </button>
+    </div>
+  } @else {
+    <!-- Results -->
+    <div class="results-container">
+      <div class="results-header">
+        <span class="results-emoji">🎉</span>
+        <h3 class="results-title">Your Personality Profile</h3>
+        <p class="results-desc">Here's how your Big Five traits scored</p>
+      </div>
+
+      <div class="trait-bars">
+        @for (trait of traitConfig; track trait.key) {
+          <div class="trait-row">
+            <div class="trait-row__meta">
+              <span class="trait-row__icon">{{ trait.icon }}</span>
+              <div>
+                <span class="trait-row__name">{{ trait.label }}</span>
+                <span class="trait-row__desc">{{ trait.desc }}</span>
+              </div>
+            </div>
+            <div class="trait-bar-wrap">
+              <div class="trait-bar">
+                <div
+                  class="trait-bar__fill"
+                  [style.backgroundColor]="trait.color"
+                  [style.width.%]="results()?.[trait.key]"
+                ></div>
+              </div>
+              <span class="trait-bar__score">{{ results()?.[trait.key] }}%</span>
+            </div>
+          </div>
+        }
+      </div>
+
+      @if (results()?.summary) {
+        <div class="summary-card">
+          <h4>Analysis Summary</h4>
+          <p>{{ results()?.summary }}</p>
+        </div>
+      }
+
+      <div class="step-actions">
+        <button type="button" mat-button class="btn-back" (click)="showResults.set(false)">
+          <mat-icon>arrow_back</mat-icon>
+          Retake
+        </button>
+        <div style="flex: 1"></div>
+        <button type="button" mat-button class="btn-skip" (click)="skip()">Skip</button>
+        <button
+          type="button"
+          mat-flat-button
+          color="primary"
+          class="btn-next btn-finish"
+          (click)="finish()"
+        >
+          Finish Setup
+          <mat-icon>check_circle</mat-icon>
+        </button>
+      </div>
+    </div>
+  }
+</div>

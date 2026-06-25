@@ -1,0 +1,180 @@
+/* You can add global styles to this file, and also import other style files */
+@use 'styles/reboot';
+@use 'styles/themes';
+@use 'styles/colors';
+@use 'styles/grid';
+@use 'styles/helpers';
+@use 'styles/plugins';
+@use 'styles/custom';
+
+/* SkillBridge brand color tokens (must come before tailwindcss) */
+@use 'styles/tailwind-theme';
+
+@use "tailwindcss";
+
+// Fix Tailwind CSS interfering with Angular Material MDC Form Fields
+.mdc-notched-outline__notch {
+  border-right: none !important;
+  border-left: none !important;
+}
+
+.mdc-notched-outline__leading {
+  border-right: none !important;
+}
+
+.mdc-notched-outline__trailing {
+  border-left: none !important;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  background: radial-gradient(circle at top right, #f4fbfc, #f0f9fa 50%, #e0f4f5) fixed;
+  transition: background 0.5s ease;
+
+  .theme-dark & {
+    background: radial-gradient(circle at top right, #072e33, #05161a 50%, #030d0f) fixed;
+  }
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+mat-icon {
+  vertical-align: middle;
+}
+
+// Global Material Table Styles
+.mat-mdc-table {
+  width: 100%;
+  overflow: hidden;
+  background-color: rgb(255 255 255 / 0.5) !important;
+  border: 1px solid rgb(15 150 156 / 0.1);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-premium);
+  backdrop-filter: blur(10px);
+
+  .theme-dark & {
+    background-color: rgb(7 46 51 / 0.5) !important;
+  }
+
+  .mat-mdc-header-row {
+    min-height: 56px;
+    background-color: var(--mat-sys-surface-container-high) !important;
+  }
+
+  .mat-mdc-header-cell {
+    font-size: 0.75rem;
+    font-weight: 700 !important;
+    color: var(--mat-sys-on-surface-variant) !important;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-bottom: 2px solid var(--mat-sys-outline) !important;
+  }
+
+  .mat-mdc-row {
+    min-height: 64px;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: rgb(15 150 156 / 0.05) !important;
+    }
+  }
+
+  .mat-mdc-cell {
+    font-size: 0.875rem;
+    color: var(--mat-sys-on-surface) !important;
+    border-bottom: 1px solid rgb(15 150 156 / 0.05) !important;
+  }
+}
+
+// Global Form Field Styles
+.mat-mdc-form-field {
+  --mdc-filled-text-field-container-shape: var(--radius-lg);
+  --mdc-outlined-text-field-container-shape: var(--radius-lg);
+
+  .mat-mdc-text-field-wrapper {
+    background-color: rgb(15 150 156 / 0.03) !important;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: rgb(15 150 156 / 0.06) !important;
+    }
+  }
+
+  &.mat-focused .mat-mdc-text-field-wrapper {
+    background-color: rgb(15 150 156 / 0.08) !important;
+  }
+}
+
+// Custom chip styles for status
+.status-chip {
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+
+  &.completed {
+    color: #065f46 !important;
+    background-color: #d1fae5 !important;
+  }
+
+  &.in-progress {
+    color: #1e40af !important;
+    background-color: #dbeafe !important;
+  }
+
+  &.upcoming {
+    color: #92400e !important;
+    background-color: #fef3c7 !important;
+  }
+}
+
+// Utility classes for premium feel
+.hvr-lift {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    box-shadow: var(--shadow-hover) !important;
+    transform: translateY(-4px);
+  }
+}
+
+.glass-effect {
+  background: rgb(255 255 255 / 0.7);
+  border: 1px solid rgb(255 255 255 / 0.3);
+  backdrop-filter: blur(10px);
+
+  .theme-dark & {
+    background: rgb(5 22 26 / 0.7);
+    border: 1px solid rgb(224 244 245 / 0.1);
+  }
+}
+
+.text-gradient {
+  background: linear-gradient(45deg, var(--mat-sys-primary), var(--mat-sys-secondary));
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Force sidebar and its children to allow visible overflow for menu labels */
+.matero-sidenav,
+.mat-sidenav,
+.mat-drawer,
+.mat-sidenav-inner-container,
+.mat-drawer-inner-container,
+.matero-sidebar-main,
+/* Force menu labels to allow visible overflow */
+.menu-item,
+.menu-heading {
+  overflow: visible !important;
+}
+
+/* Fix for Material Sidenav sometimes applying overflow: hidden via styles */
+mat-sidenav {
+  overflow: visible !important;
+}

@@ -1,0 +1,92 @@
+// Step Skills uses the same base step styles
+@use '../step-personal/step-personal';
+
+// ── Skeleton Loading ─────────────────────────────────────────────────────────
+.skeleton-skills {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    animation: fade-in 0.4s ease both;
+}
+
+.skeleton-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.skeleton-header {
+    width: 150px;
+    height: 20px;
+    background: var(--mat-sys-surface-container-highest);
+    border-radius: 4px;
+}
+
+.skeleton-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.skeleton-chip {
+    position: relative;
+    width: 80px;
+    height: 32px;
+    overflow: hidden;
+    background: var(--mat-sys-surface-container-highest);
+    border-radius: 99px;
+
+    &::after {
+        position: absolute;
+        inset: 0;
+        content: "";
+        background: linear-gradient(90deg,
+                transparent,
+                rgb(from var(--mat-sys-on-surface) r g b / 0.05),
+                transparent);
+        transform: translateX(-100%);
+        animation: shimmer 1.5s infinite;
+    }
+}
+
+.skeleton-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+}
+
+.skeleton-card {
+    position: relative;
+    height: 80px;
+    overflow: hidden;
+    background: var(--mat-sys-surface-container-highest);
+    border-radius: 14px;
+
+    &::after {
+        position: absolute;
+        inset: 0;
+        content: "";
+        background: linear-gradient(90deg,
+                transparent,
+                rgb(from var(--mat-sys-on-surface) r g b / 0.05),
+                transparent);
+        transform: translateX(-100%);
+        animation: shimmer 1.5s infinite;
+    }
+}
+
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

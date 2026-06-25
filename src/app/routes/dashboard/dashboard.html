@@ -1,0 +1,173 @@
+<div class="dashboard-wrapper">
+  @if (isLoading()) {
+    <!-- Skeleton Loaders -->
+    <section class="welcome-banner skeleton">
+      <div class="skeleton-line title"></div>
+      <div class="skeleton-line subtitle"></div>
+    </section>
+
+    <div class="row m-t-24">
+      <div class="col-md-8">
+        <div class="row">
+          @for (i of [1, 2, 3, 4]; track i) {
+            <div class="col-sm-6 m-b-24">
+              <mat-card class="career-card skeleton">
+                <div class="skeleton-box icon"></div>
+                <div class="skeleton-line m-t-16"></div>
+                <div class="skeleton-line short m-t-8"></div>
+                <div class="skeleton-line m-t-16"></div>
+              </mat-card>
+            </div>
+          }
+        </div>
+      </div>
+      <div class="col-md-4">
+        <mat-card class="personality-card skeleton">
+          <div class="skeleton-line m-b-24"></div>
+          @for (i of [1, 2, 3, 4, 5]; track i) {
+            <div class="skeleton-line m-b-16"></div>
+            <div class="skeleton-line progress m-b-16"></div>
+          }
+        </mat-card>
+      </div>
+    </div>
+  } @else {
+    <!-- Section 1: Welcome Banner -->
+    <section class="welcome-banner">
+      <div class="welcome-content">
+        <h1 class="welcome-title">
+          {{ userData().greeting }},
+          <span class="text-primary">{{ userData().fullName }}</span>
+        </h1>
+        <p class="welcome-subtitle">{{ userData().subtitle }}</p>
+      </div>
+    </section>
+
+    <div class="row m-t-24">
+      <!-- Section 2: Recommended Careers -->
+      <div class="col-md-8">
+        <section class="careers-section">
+          <div class="section-header d-flex align-items-center justify-content-between m-b-16">
+            <h2 class="section-title m-0">Recommended Careers</h2>
+          </div>
+
+          <div class="row">
+            @for (career of careers(); track career.name) {
+              <div class="col-md-6 col-12 m-b-24">
+                <mat-card class="career-card h-full hvr-lift">
+                  <mat-card-header class="m-b-16">
+                    <div class="d-flex w-full justify-content-between align-items-start">
+                      <div class="career-icon">
+                        <mat-icon color="primary">work</mat-icon>
+                      </div>
+                      <div class="match-badge">
+                        <span class="badge-text">{{ career.match }}% Match</span>
+                      </div>
+                    </div>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <h3 class="career-name m-b-8">{{ career.name }}</h3>
+                    <!-- <p class="career-desc m-b-16 line-clamp-2">{{ career.description }}</p> -->
+                    <div class="career-tags d-flex flex-wrap gap-8">
+                      @for (tag of career.tags; track tag) {
+                        <span class="tag-chip">{{ tag }}</span>
+                      }
+                    </div>
+                  </mat-card-content>
+                  <mat-card-actions align="end" class="p-16">
+<button
+  mat-flat-button
+  color="primary"
+  (click)="exploreCareer(career.name)"
+>
+  Explore
+</button>                  </mat-card-actions>
+                </mat-card>
+              </div>
+            } @empty {
+              <div class="col-12">
+                <div class="empty-state-card hvr-glow">
+                  <div class="empty-icon-box">
+                    <mat-icon>auto_awesome</mat-icon>
+                  </div>
+                  <h3 class="empty-title">Unlock Your Career Path</h3>
+                  <p class="empty-desc">
+                    Complete your profile and assessment to see personalized career recommendations
+                    tailored to your unique skills and personality.
+                  </p>
+                  <button
+                    mat-flat-button
+                    color="primary"
+                    class="mt-2 hvr-lift"
+                    (click)="goToOnboarding()"
+                  >
+                    Start Assessment
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        </section>
+      </div>
+
+      <!-- Section 4: Personality Status -->
+      <div class="col-md-4">
+        <section class="personality-section">
+          <div class="section-header m-b-16">
+            <h2 class="section-title">Personality Profile</h2>
+          </div>
+
+          <mat-card class="personality-card">
+            <mat-card-content>
+              @if (hasAssessment()) {
+                <p class="text-muted m-b-24">Based on your recent assessment:</p>
+                <div class="traits-list">
+                  @for (trait of personalityTraits(); track trait.name) {
+                    <div class="trait-item m-b-20">
+                      <div class="d-flex justify-content-between m-b-8">
+                        <span class="trait-name">{{ trait.name }}</span>
+                        <span class="trait-percent">{{ trait.percentage }}%</span>
+                      </div>
+                      <div class="trait-bar-bg">
+                        <div
+                          class="trait-bar-fill"
+                          [ngStyle]="{
+                            'width': trait.percentage + '%',
+                            'background-color': trait.color,
+                          }"
+                        ></div>
+                      </div>
+                    </div>
+                  }
+                </div>
+                <div class="d-flex flex-column gap-12 m-t-32">
+                  <button mat-button class="w-full" (click)="goToOnboarding()">
+                    Retake Assessment
+                  </button>
+                </div>
+              } @else {
+                <div class="empty-trait-state text-center p-y-24">
+                  <div class="empty-icon-wrapper m-b-16 primary">
+                    <mat-icon>psychology</mat-icon>
+                  </div>
+                  <h4 class="m-b-8">No Assessment Data</h4>
+                  <p class="text-muted m-b-24">
+                    Your personality profile is waiting to be discovered. Take the assessment now!
+                  </p>
+                  <button
+                    mat-flat-button
+                    color="primary"
+                    class="w-full hvr-lift mt-2"
+                    (click)="goToOnboarding()"
+                  >
+                    Take Assessment
+                  </button>
+                </div>
+              }
+            </mat-card-content>
+          </mat-card>
+        </section>
+      </div>
+    </div>
+  }
+</div>

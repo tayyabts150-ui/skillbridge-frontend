@@ -1,0 +1,17 @@
+<mat-tab-group>
+  @for (tab of tabs; track $index) {
+    <mat-tab [label]="tab.label">
+      @for (msg of tab.messages; track $index) {
+        <div class="notice-item">
+          <div class="notice-icon {{ msg.color }}">
+            <mat-icon>{{ msg.icon }}</mat-icon>
+          </div>
+          <div class="notice-content">
+            <div class="notice-title">{{ msg.title }}</div>
+            <div class="notice-text">{{ msg.content }}</div>
+          </div>
+        </div>
+      }
+    </mat-tab>
+  }
+</mat-tab-group>

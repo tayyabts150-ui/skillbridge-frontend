@@ -1,0 +1,72 @@
+.matero-sidebar-notice {
+  display: block;
+  height: 100%;
+  color: var(--mat-sys-on-surface);
+
+  .mat-mdc-tab-group {
+    height: 100%;
+  }
+
+  .mat-mdc-tab-body-wrapper {
+    flex: 1;
+  }
+
+  .mat-mdc-tab-body-content {
+    padding: 1.5rem;
+  }
+
+  .notice-item {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: rgb(15 150 156 / 0.05);
+    border: 1px solid rgb(15 150 156 / 0.08);
+    border-radius: var(--radius-lg);
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: rgb(15 150 156 / 0.1);
+      transform: translateY(-2px);
+    }
+
+    .notice-icon {
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      width: 3rem;
+      height: 3rem;
+      color: white;
+      border-radius: 10px;
+
+      &.bg-primary {
+        background-color: var(--mat-sys-primary);
+      }
+
+      &.bg-warn {
+        background-color: #ef4444;
+      }
+
+      &.bg-accent {
+        background-color: #f59e0b;
+      }
+    }
+
+    .notice-content {
+      flex: 1;
+      min-width: 0;
+
+      .notice-title {
+        margin-bottom: 0.25rem;
+        font-weight: 600;
+      }
+
+      .notice-text {
+        font-size: 0.875rem;
+        color: var(--mat-sys-on-surface-variant);
+      }
+    }
+  }
+}

@@ -1,0 +1,453 @@
+// Step Academic — extends the shared base step styles with degree card styles
+@use '../step-personal/step-personal';
+
+// ── File input (hidden) ───────────────────────────────────────────────────────
+.file-input-hidden {
+    display: none;
+}
+
+// ── File upload area ──────────────────────────────────────────────────────────
+.file-upload-area {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
+    min-height: 72px;
+    padding: 20px;
+    cursor: pointer;
+    background: var(--mat-sys-surface-container);
+    border: 1.5px dashed var(--mat-sys-outline);
+    border-radius: 12px;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: color-mix(in srgb, var(--mat-sys-primary) 5%, transparent);
+        border-color: var(--mat-sys-primary);
+    }
+
+    &__icon {
+        width: 24px;
+        height: 24px;
+        font-size: 24px;
+        color: var(--mat-sys-on-surface-variant);
+
+        &--ok {
+            color: var(--mat-sys-primary);
+        }
+    }
+
+    &__text {
+        font-size: 0.8rem;
+        color: var(--mat-sys-on-surface-variant);
+    }
+
+    &__name {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--mat-sys-primary);
+        text-align: center;
+        word-break: break-all;
+    }
+}
+
+// ── Degree tag file variant ───────────────────────────────────────────────────
+.degree-card__tag--file {
+    display: inline-flex;
+    gap: 3px;
+    align-items: center;
+}
+
+// ── Document upload grid ──────────────────────────────────────────────────────
+.doc-upload-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+
+    @media (width <= 480px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.doc-upload-label {
+    margin: 0 0 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--mat-sys-on-surface-variant);
+}
+
+// ── Doc upload section header (inside form) ───────────────────────────────────
+.doc-upload-section {
+    padding-top: 12px;
+    margin-top: 4px;
+    border-top: 1px solid var(--mat-sys-outline);
+
+    &__title {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        margin: 0 0 12px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--mat-sys-on-surface);
+
+        mat-icon {
+            width: 16px;
+            height: 16px;
+            font-size: 16px;
+            color: var(--mat-sys-primary);
+        }
+    }
+
+    &__optional {
+        font-size: 0.75rem;
+        font-weight: 400;
+        color: var(--mat-sys-on-surface-variant);
+    }
+}
+
+
+
+
+// ── Degree section wrapper ─────────────────────────────────────────────────────
+.degree-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+// ── Saved degree cards ────────────────────────────────────────────────────────
+.degrees-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.degree-card {
+    position: relative;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 24px 20px 20px;
+    background: var(--mat-sys-surface-container);
+    border: 1.5px solid var(--mat-sys-outline);
+    border-radius: 20px;
+    transition: all 0.2s ease;
+    animation: card-in 0.3s ease both;
+
+    &--primary {
+        margin-top: 12px;
+        background: rgb(from var(--mat-sys-primary) r g b / 0.04);
+        border: 1.5px solid var(--mat-sys-primary);
+    }
+
+    &__badge {
+        position: absolute;
+        top: -12px;
+        left: 20px;
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        padding: 4px 14px;
+        font-size: 0.7rem;
+        font-weight: 800;
+        color: var(--mat-sys-on-primary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        background: var(--mat-sys-primary);
+        border-radius: 99px;
+        box-shadow: 0 4px 12px rgb(from var(--mat-sys-primary) r g b / 0.4);
+
+        mat-icon {
+            width: 14px;
+            height: 14px;
+            font-size: 14px;
+        }
+    }
+
+    &__icon {
+        flex-shrink: 0;
+        margin-top: 2px;
+        font-size: 1.5rem;
+    }
+
+    &__body {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        gap: 4px;
+        min-width: 0;
+    }
+
+    &__program {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 0.9375rem;
+        font-weight: 700;
+        color: var(--mat-sys-on-surface);
+        white-space: nowrap;
+    }
+
+    &__institution {
+        font-size: 0.8125rem;
+        color: var(--mat-sys-on-surface-variant);
+    }
+
+    &__meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 4px;
+    }
+
+    &__tag {
+        display: inline-block;
+        padding: 2px 10px;
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: var(--mat-sys-primary);
+        background: color-mix(in srgb, var(--mat-sys-primary) 10%, transparent);
+        border-radius: 99px;
+    }
+
+    &__actions {
+        display: flex;
+        flex-shrink: 0;
+        flex-direction: column;
+        gap: 6px;
+    }
+}
+
+
+@keyframes card-in {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// ── Degree icon buttons (edit / remove) ────────────────────────────────────────
+.degree-icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    color: var(--mat-sys-on-surface-variant);
+    cursor: pointer;
+    background: transparent;
+    border: 1.5px solid var(--mat-sys-outline);
+    border-radius: 8px;
+    transition: all 0.18s ease;
+
+    mat-icon {
+        width: 16px;
+        height: 16px;
+        font-size: 16px;
+    }
+
+    &:hover {
+        color: var(--mat-sys-primary);
+        border-color: var(--mat-sys-primary);
+    }
+
+    &--remove:hover {
+        color: var(--mat-sys-error, #dc2626);
+        border-color: var(--mat-sys-error, #dc2626);
+    }
+}
+
+// ── "Add Degree" button ────────────────────────────────────────────────────────
+.add-degree-btn {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--mat-sys-primary);
+    cursor: pointer;
+    background: color-mix(in srgb, var(--mat-sys-primary) 6%, transparent);
+    border: 1.5px dashed var(--mat-sys-primary);
+    border-radius: 14px;
+    transition: all 0.2s ease;
+
+    mat-icon {
+        font-size: 20px;
+    }
+
+    &:hover {
+        background: color-mix(in srgb, var(--mat-sys-primary) 12%, transparent);
+    }
+}
+
+// ── Inline degree form panel ───────────────────────────────────────────────────
+.degree-form-panel {
+    padding: 20px;
+    background: var(--mat-sys-surface-container);
+    border: 1.5px solid var(--mat-sys-outline);
+    border-radius: 16px;
+    animation: card-in 0.3s ease both;
+
+    &__header {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        margin-bottom: 16px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--mat-sys-primary);
+
+        mat-icon {
+            width: 18px;
+            height: 18px;
+            font-size: 18px;
+        }
+    }
+}
+
+// ── Form actions inside the degree panel ──────────────────────────────────────
+.degree-form-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+
+.btn-cancel {
+    height: 40px;
+    padding: 0 18px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--mat-sys-on-surface-variant);
+    cursor: pointer;
+    background: transparent;
+    border: 1.5px solid var(--mat-sys-outline);
+    border-radius: 10px;
+    transition: all 0.2s;
+
+    &:hover {
+        border-color: var(--mat-sys-on-surface-variant);
+    }
+}
+
+.btn-add-degree {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    height: 40px;
+    padding: 0 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--mat-sys-on-primary);
+    cursor: pointer;
+    background: var(--mat-sys-primary);
+    border: none;
+    border-radius: 10px;
+    transition: all 0.2s;
+
+    mat-icon {
+        width: 18px;
+        height: 18px;
+        font-size: 18px;
+    }
+
+    &:hover {
+        opacity: 0.88;
+    }
+}
+
+// ── Skeleton Loading ─────────────────────────────────────────────────────────
+.skeleton-academic {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    animation: fade-in 0.4s ease both;
+}
+
+.skeleton-card {
+    position: relative;
+    display: flex;
+    gap: 14px;
+    padding: 20px;
+    overflow: hidden;
+    background: var(--mat-sys-surface-container);
+    border: 1.5px solid var(--mat-sys-outline);
+    border-radius: 20px;
+
+    &::after {
+        position: absolute;
+        inset: 0;
+        content: "";
+        background: linear-gradient(90deg,
+                transparent,
+                rgb(from var(--mat-sys-on-surface) r g b / 0.05),
+                transparent);
+        transform: translateX(-100%);
+        animation: shimmer 1.5s infinite;
+    }
+
+    &__icon {
+        width: 32px;
+        height: 32px;
+        background: var(--mat-sys-surface-container-highest);
+        border-radius: 8px;
+    }
+
+    &__body {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    &__line {
+        width: 60%;
+        height: 14px;
+        background: var(--mat-sys-surface-container-highest);
+        border-radius: 4px;
+
+        &--short {
+            width: 40%;
+        }
+    }
+
+    &__meta {
+        display: flex;
+        gap: 8px;
+        margin-top: 4px;
+    }
+
+    &__tag {
+        width: 60px;
+        height: 18px;
+        background: var(--mat-sys-surface-container-highest);
+        border-radius: 99px;
+    }
+}
+
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.btn-spinner {
+    margin-right: 8px;
+}

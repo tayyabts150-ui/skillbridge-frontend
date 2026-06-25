@@ -1,0 +1,177 @@
+@use '@angular/material' as mat;
+
+:root {
+  --radius-2xl: 24px;
+  --radius-xl: 16px;
+  --radius-lg: 12px;
+  --shadow-premium: 0 10px 40px -10px rgb(5 22 26 / 0.15);
+  --shadow-hover: 0 20px 50px -12px rgb(5 22 26 / 0.25);
+  --gutter: 2rem;
+}
+
+html {
+  height: 100%;
+  color-scheme: light;
+
+  // Use M3 cyan as the closest built-in palette for our teal brand
+  @include mat.theme((color: (primary: mat.$cyan-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: 'Roboto',
+      density: 0));
+
+  // Override M3 system color tokens to match the SkillBridge brand palette
+  --mat-sys-primary: #0f969c;
+  --mat-sys-primary-rgb: 15, 150, 156;
+  --mat-sys-on-primary: #fff;
+  --mat-sys-primary-container: rgb(179 229 232 / 0.3);
+  --mat-sys-on-primary-container: #05161a;
+  --mat-sys-secondary: #294d61;
+  --mat-sys-on-secondary: #fff;
+  --mat-sys-secondary-container: rgb(179 200 215 / 0.3);
+  --mat-sys-on-secondary-container: #05161a;
+  --mat-sys-surface: transparent;
+  --mat-sys-on-surface: #05161a;
+  --mat-sys-surface-variant: rgb(224 244 245 / 0.4);
+  --mat-sys-on-surface-variant: #072e33;
+  --mat-sys-outline: rgb(12 112 117 / 0.2);
+
+  // Surface container variations
+  --mat-sys-surface-container-highest: rgb(224 244 245 / 0.6);
+  --mat-sys-surface-container-high: rgb(231 247 248);
+  --mat-sys-surface-container: rgb(240 249 250 / 0.4);
+  --mat-sys-surface-container-low: rgb(244 251 252 / 0.3);
+  --mat-sys-surface-container-lowest: rgb(255 255 255 / 0.2);
+
+  // Global component overrides
+  .mat-mdc-card {
+    overflow: hidden;
+    color: var(--mat-sys-on-surface) !important;
+    background-color: rgb(255 255 255 / 0.4) !important;
+    border: 1px solid rgb(15 150 156 / 0.05);
+    border-radius: var(--radius-2xl) !important;
+    box-shadow: var(--shadow-premium) !important;
+    backdrop-filter: blur(12px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    .mat-mdc-card-title,
+    .mat-mdc-card-subtitle,
+    .mat-mdc-card-content,
+    p,
+    span:not(.mdc-button__label),
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: var(--mat-sys-on-surface) !important;
+    }
+
+
+
+    &:hover {
+      box-shadow: var(--shadow-hover) !important;
+    }
+  }
+
+  .mat-mdc-button,
+  .mat-mdc-unelevated-button,
+  .mat-mdc-raised-button {
+    font-weight: 500;
+    text-transform: none;
+    border-radius: var(--radius-lg) !important;
+  }
+
+  // Global Dropdown Styling
+  .mat-mdc-menu-panel,
+  .mat-mdc-select-panel {
+    border: 1px solid rgb(15 150 156 / 0.1) !important;
+    border-radius: var(--radius-xl) !important;
+    box-shadow: 0 10px 40px rgb(5 22 26 / 0.15) !important;
+    backdrop-filter: blur(15px) !important;
+
+    .mat-mdc-menu-item,
+    .mat-mdc-option {
+      color: var(--mat-sys-on-surface) !important;
+
+      &:hover:not(.mdc-list-item--disabled) {
+        background-color: rgb(15 150 156 / 0.05) !important;
+      }
+    }
+  }
+
+  // Global Modal Styling
+  .mat-mdc-dialog-container {
+    .mat-mdc-dialog-surface {
+      overflow: hidden;
+      background-color: rgb(255 255 255 / 0.9) !important; // Higher opacity for modals
+      border: 1px solid rgb(15 150 156 / 0.1) !important;
+      border-radius: var(--radius-2xl) !important;
+      box-shadow: 0 20px 60px rgb(5 22 26 / 0.2) !important;
+      backdrop-filter: blur(25px) !important;
+    }
+
+    .mat-mdc-dialog-title,
+    .mat-mdc-dialog-content,
+    .mat-mdc-dialog-actions {
+      color: var(--mat-sys-on-surface) !important;
+    }
+  }
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(at 0% 0%, rgb(15 150 156 / 0.1) 0%, transparent 50%),
+    radial-gradient(at 100% 0%, rgb(41 77 97 / 0.05) 0%, transparent 50%),
+    radial-gradient(at 100% 100%, rgb(15 150 156 / 0.05) 0%, transparent 50%),
+    radial-gradient(at 0% 100%, rgb(41 77 97 / 0.1) 0%, transparent 50%),
+    #f8fdfe;
+  background-attachment: fixed;
+}
+
+.theme-dark {
+  color-scheme: dark;
+
+  // Dark mode system token overrides
+  --mat-sys-primary: #0f969c;
+  --mat-sys-primary-rgb: 15, 150, 156;
+  --mat-sys-on-primary: #05161a;
+  --mat-sys-primary-container: #072e33;
+  --mat-sys-on-primary-container: #e0f4f5;
+  --mat-sys-secondary: #6da5c0;
+  --mat-sys-on-secondary: #05161a;
+  --mat-sys-secondary-container: #294d61;
+  --mat-sys-on-secondary-container: #e0f4f5;
+  --mat-sys-surface: #05161a;
+  --mat-sys-on-surface: #e0f4f5;
+  --mat-sys-surface-variant: #072e33;
+  --mat-sys-on-surface-variant: #e0f4f5;
+  --mat-sys-outline: #0c7075;
+
+  // Surface container variations for dark mode
+  --mat-sys-surface-container-highest: #0c7075;
+  --mat-sys-surface-container-high: #072e33;
+  --mat-sys-surface-container: #05161a;
+  --mat-sys-surface-container-low: #041215;
+  --mat-sys-surface-container-lowest: #030d0f;
+
+  .mat-mdc-card {
+    background-color: var(--mat-sys-surface-variant) !important;
+    border: 1px solid rgb(224 244 245 / 0.05);
+  }
+
+  .mat-mdc-menu-panel,
+  .mat-mdc-select-panel {
+    background-color: rgb(5 22 26 / 0.95) !important; // Nearly opaque in dark mode
+    border: 1px solid rgb(224 244 245 / 0.1) !important;
+  }
+
+  .mat-mdc-dialog-container {
+    .mat-mdc-dialog-surface {
+      background-color: rgb(5 22 26 / 0.9) !important;
+      border: 1px solid rgb(224 244 245 / 0.1) !important;
+    }
+  }
+}

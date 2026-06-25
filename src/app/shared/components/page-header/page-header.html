@@ -1,0 +1,14 @@
+<div class="matero-page-header-inner d-flex align-items-center justify-content-between">
+  <div>
+    <h1 class="matero-page-title text-gradient">
+      {{ titleName() | translate }}
+      <small>{{ subtitle() }}</small>
+    </h1>
+    @if (!hideBreadcrumb()) {
+      <breadcrumb [nav]="nav()" />
+    }
+  </div>
+  <div class="matero-page-header-actions">
+    <ng-content select="[actions]" />
+  </div>
+</div>

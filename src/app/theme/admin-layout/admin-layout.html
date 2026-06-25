@@ -1,0 +1,91 @@
+<div
+  class="matero-container-wrap"
+  [class.matero-sidenav-collapsed]="options.sidenavCollapsed && options.navPos !== 'top'"
+  [class.matero-navbar-side]="options.navPos === 'side'"
+  [class.matero-navbar-top]="options.navPos === 'top'"
+  [class.matero-header-above]="options.headerPos === 'above'"
+  [class.matero-header-fixed]="options.headerPos === 'fixed'"
+  [dir]="options.dir"
+>
+  <ng-progress ngProgressRouter />
+
+  <!-- Header Above -->
+  @if (options.showHeader && options.headerPos === 'above') {
+    <app-header
+      (toggleSidenav)="sidenav.toggle()"
+      (toggleSidenavNotice)="sidenavNotice.toggle()"
+      [showBranding]="true"
+    />
+  }
+
+  <mat-sidenav-container class="matero-container" autosize autoFocus>
+    <mat-sidenav
+      #sidenav
+      class="matero-sidenav"
+      [mode]="isOver ? 'over' : 'side'"
+      [opened]="options.navPos === 'side' && options.sidenavOpened && !isOver"
+      (openedChange)="onSidenavOpenedChange($event)"
+    >
+      <app-sidebar
+        [showToggle]="!isOver"
+        [showUser]="options.showUserPanel"
+        [showHeader]="options.headerPos !== 'above'"
+        [toggleChecked]="options.sidenavCollapsed"
+        (toggleCollapsed)="toggleCollapsed()"
+        (closeSidenav)="sidenav.close()"
+      />
+    </mat-sidenav>
+
+    <mat-sidenav #sidenavNotice position="end" mode="over" class="matero-notice-drawer">
+      <app-sidebar-notice />
+    </mat-sidenav>
+
+    <mat-sidenav-content #content class="matero-content">
+      @if (options.showHeader && options.headerPos !== 'above') {
+        <app-header
+          [showToggle]="!options.sidenavCollapsed && options.navPos !== 'top'"
+          [showBranding]="true"
+          (toggleSidenav)="sidenav.toggle()"
+          (toggleSidenavNotice)="sidenavNotice.toggle()"
+        />
+      }
+
+      @if (options.navPos === 'top') {
+        <app-topmenu />
+      }
+
+      <main class="matero-page-content">
+        <router-outlet />
+      </main>
+
+      @if (isOver) {
+        <nav class="mobile-bottom-nav">
+          <div class="mobile-nav-items">
+            <a routerLink="/dashboard" routerLinkActive="active" class="mobile-nav-item">
+              <mat-icon>dashboard</mat-icon>
+              <span>Home</span>
+            </a>
+            <a routerLink="/academics" routerLinkActive="active" class="mobile-nav-item">
+              <mat-icon>school</mat-icon>
+              <span>Academics</span>
+            </a>
+            <a routerLink="/profile/overview" routerLinkActive="active" class="mobile-nav-item">
+              <mat-icon>person</mat-icon>
+              <span>Profile</span>
+            </a>
+            <a
+              (click)="logout()"
+              (keyup.enter)="logout()"
+              class="mobile-nav-item logout"
+              tabindex="0"
+              role="button"
+            >
+              <mat-icon>logout</mat-icon>
+              <span>Logout</span>
+            </a>
+          </div>
+        </nav>
+      }
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

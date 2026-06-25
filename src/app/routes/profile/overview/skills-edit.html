@@ -1,0 +1,109 @@
+<h2 mat-dialog-title>Edit Skills & Interests</h2>
+
+<mat-dialog-content>
+  @if (isLoading()) {
+    <div class="d-flex justify-content-center p-40">
+      <mat-progress-spinner mode="indeterminate" diameter="40" />
+    </div>
+  } @else {
+    <!-- Technical Skills -->
+    <div class="edit-section m-b-32">
+      <div class="d-flex justify-content-between align-items-center m-b-16">
+        <h3 class="section-subtitle m-0">
+          <mat-icon class="subtitle-icon">keyboard_double_arrow_right</mat-icon>
+          Your Skills
+        </h3>
+        <span class="selection-badge">{{ selectedSkillIds().size }} selected</span>
+      </div>
+      <div class="skills-grid">
+        @for (skill of allSkills(); track skill.id) {
+          <div
+            class="selectable-chip"
+            [class.selected]="selectedSkillIds().has(skill.id)"
+            (click)="toggleSkill(skill.id)"
+            (keydown)="onKeydown($event, 'skill', skill.id)"
+            tabindex="0"
+            role="button"
+            [attr.aria-pressed]="selectedSkillIds().has(skill.id)"
+          >
+            @if (selectedSkillIds().has(skill.id)) {
+              <mat-icon class="check-icon">check</mat-icon>
+            }
+            {{ skill.name }}
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Career Interests -->
+    <div class="edit-section m-b-32">
+      <div class="d-flex justify-content-between align-items-center m-b-16">
+        <h3 class="section-subtitle m-0">
+          <mat-icon class="subtitle-icon">explore</mat-icon>
+          Career Interests
+        </h3>
+        <span class="selection-badge alt">{{ selectedInterestIds().size }} selected</span>
+      </div>
+      <div class="interest-grid">
+        @for (interest of allInterests(); track interest.id) {
+          <button
+            type="button"
+            class="interest-card"
+            [class.interest-card--selected]="selectedInterestIds().has(interest.id)"
+            (click)="toggleInterest(interest.id)"
+          >
+            @if (selectedInterestIds().has(interest.id)) {
+              <mat-icon class="interest-tick">check_circle</mat-icon>
+            }
+            <mat-icon class="interest-card__icon">{{ interest.icon }}</mat-icon>
+            <span class="interest-card__label">{{ interest.name }}</span>
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- Course-Based Skills -->
+    <div class="edit-section">
+      <h3 class="section-subtitle m-b-16">
+        <mat-icon class="subtitle-icon">school</mat-icon>
+        Course-Based Skills
+        <span class="text-muted text-sm m-l-4">optional</span>
+      </h3>
+      <div class="custom-input-group m-b-16">
+        <input
+          #courseSkillInput
+          type="text"
+          placeholder="Type a skill and press Enter"
+          (keydown.enter)="addCourseSkill(courseSkillInput.value); courseSkillInput.value = ''"
+          class="skill-input"
+        />
+        <button
+          mat-icon-button
+          color="primary"
+          (click)="addCourseSkill(courseSkillInput.value); courseSkillInput.value = ''"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+      <div class="d-flex flex-wrap gap-8">
+        @for (skill of courseSkills(); track skill) {
+          <span class="course-chip">
+            {{ skill }}
+            <mat-icon (click)="removeCourseSkill(skill)">close</mat-icon>
+          </span>
+        }
+      </div>
+    </div>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close [disabled]="isSaving()">Cancel</button>
+  <button mat-flat-button color="primary" (click)="save()" [disabled]="isSaving() || isLoading()">
+    @if (isSaving()) {
+      Saving...
+    } @else {
+      Save Changes
+    }
+  </button>
+</mat-dialog-actions>

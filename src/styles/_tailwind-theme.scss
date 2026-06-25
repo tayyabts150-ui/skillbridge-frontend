@@ -1,0 +1,53 @@
+// =============================================================================
+// SkillBridge Brand Color Theme — Tailwind v4
+// Registers CSS custom properties recognized by Tailwind v4 as utility classes.
+//
+// Usage:
+//   bg-brand-primary    text-brand-darkest   border-brand-mid
+//   bg-primary          text-secondary       bg-surface
+// =============================================================================
+
+/* stylelint-disable at-rule-no-unknown */
+@theme {
+  // ── Raw palette ─────────────────────────────────────────────────────────────
+  --color-brand-darkest: #05161a;  // Nearly-black teal — deepest bg
+  --color-brand-dark:    #072e33;  // Dark teal — sidebar / surface
+  --color-brand-mid:     #0c7075;  // Mid teal — borders / dividers
+  --color-brand-primary: #0f969c;  // Vivid teal — primary actions
+  --color-brand-light:   #6da5c0;  // Muted sky-blue — accents / icons
+  --color-brand-slate:   #294d61;  // Dark slate-blue — secondary / labels
+
+  // ── Semantic aliases (usable as bg-primary, text-secondary, etc.) ──────────
+  --color-primary:    #0f969c;     // = brand-primary
+  --color-primary-50:  #e6f7f8;
+  --color-primary-100: #b3e5e8;
+  --color-primary-200: #80d2d8;
+  --color-primary-300: #4dbfc8;
+  --color-primary-400: #26b0b8;
+  --color-primary-500: #0f969c;    // base
+  --color-primary-600: #0d8287;
+  --color-primary-700: #0a6b70;
+  --color-primary-800: #07545a;
+  --color-primary-900: #04373b;
+  --color-secondary:   #294d61;    // = brand-slate
+  --color-secondary-50:  #e5edf2;
+  --color-secondary-100: #b3c8d7;
+  --color-secondary-200: #80a3bc;
+  --color-secondary-300: #4d7ea1;
+  --color-secondary-400: #2b628a;
+  --color-secondary-500: #294d61;  // base
+  --color-secondary-600: #224055;
+  --color-secondary-700: #1a3345;
+  --color-secondary-800: #122534;
+  --color-secondary-900: #09141c;
+  --color-surface:     #072e33;    // = brand-dark
+  --color-surface-dim: #05161a;    // = brand-darkest
+  --color-on-surface:  #e0f4f5;    // light text for dark surfaces
+  --color-on-primary:  #fff;    // text on primary-colored bg
+
+  // ── Status colors (kept generic, themed to match palette) ──────────────────
+  --color-success:     #16a34a;
+  --color-warning:     #d97706;
+  --color-error:       #dc2626;
+  --color-info:        #0f969c;    // reuse brand-primary for info
+}

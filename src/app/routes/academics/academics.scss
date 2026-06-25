@@ -1,0 +1,279 @@
+@use '../../../styles/grid/breakpoints';
+
+.academics-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.subjects-grid {
+  /* CSS Grid with responsive columns */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  width: 100%;
+}
+
+/* Large screens: 3 columns */
+@include breakpoints.bp-lt(large) {
+  .subjects-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Medium screens: 2 columns */
+@include breakpoints.bp-lt(medium) {
+  .subjects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Small screens: 1 column */
+@include breakpoints.bp-lt(small) {
+  .subjects-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .subject-card {
+    min-height: auto !important;
+    padding: 20px !important;
+    border-radius: 24px !important;
+  }
+
+  .empty-state {
+    padding: 40px 16px !important;
+    border-radius: 32px !important;
+
+    .empty-title {
+      font-size: 1.5rem !important;
+    }
+  }
+}
+
+.subject-card-wrapper {
+  display: flex;
+
+  /* Fill grid cell completely */
+  width: 100%;
+}
+
+.subject-card {
+  /* make card a flex column so header/content/actions can space nicely */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  padding: 24px;
+  background: var(--mat-sys-surface-container-low) !important;
+  border: 1px solid var(--mat-sys-outline) !important;
+  border-radius: 32px !important;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.08);
+  backdrop-filter: blur(16px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    border-color: var(--mat-sys-primary) !important;
+    box-shadow: 0 12px 24px -8px rgb(from var(--mat-sys-primary) r g b / 0.2);
+    transform: translateY(-4px);
+  }
+
+  .card-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 12px;
+  }
+
+  .subject-code {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--mat-sys-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .status-badge {
+    --mdc-chip-container-height: 24px;
+
+    font-size: 0.75rem;
+    font-weight: 600;
+
+    &.university {
+      color: var(--mat-sys-primary);
+      background-color: rgb(from var(--mat-sys-primary) r g b / 0.1);
+    }
+  }
+
+  .subject-title {
+    margin: 0 0 12px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--mat-sys-on-surface);
+  }
+
+  .institution-info {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 0.9375rem;
+    color: var(--mat-sys-on-surface-variant);
+
+    mat-icon {
+      width: 18px;
+      height: 18px;
+      font-size: 18px;
+    }
+  }
+
+  .major-info {
+    margin-top: 8px;
+    font-size: 0.875rem;
+    color: var(--mat-sys-on-surface-variant);
+    opacity: 0.8;
+
+    .mr-1 {
+      margin-right: 0.25rem;
+    }
+  }
+
+  .grade-info {
+    margin-top: 4px;
+    font-size: 0.875rem;
+    color: var(--mat-sys-on-surface-variant);
+    opacity: 0.8;
+
+    .mr-1 {
+      margin-right: 0.25rem;
+    }
+  }
+}
+
+// ── Empty State ──────────────────────────────────────────────────────────────
+.empty-state {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  margin-top: 24px;
+  text-align: center;
+  background: linear-gradient(135deg,
+      rgb(from var(--mat-sys-primary) r g b / 0.05) 0%,
+      transparent 100%);
+  border: 1px solid var(--mat-sys-outline);
+  border-radius: 40px;
+  backdrop-filter: blur(12px);
+
+  .empty-icon-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 24px;
+    background: rgb(from var(--mat-sys-primary) r g b / 0.1);
+    border-radius: 30px;
+    transition: all 0.5s ease;
+
+    &::after {
+      position: absolute;
+      inset: -4px;
+      z-index: -1;
+      content: '';
+      background: var(--mat-sys-primary);
+      border-radius: 34px;
+      opacity: 0.2;
+      filter: blur(10px);
+    }
+
+    mat-icon {
+      width: 48px;
+      height: 48px;
+      font-size: 48px;
+      color: var(--mat-sys-primary);
+      filter: drop-shadow(0 4px 8px rgb(from var(--mat-sys-primary) r g b / 0.3));
+    }
+  }
+
+  &:hover .empty-icon-wrapper {
+    background: rgb(from var(--mat-sys-primary) r g b / 0.15);
+    transform: scale(1.05) rotate(5deg);
+  }
+
+  .empty-title {
+    margin: 0 0 12px;
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--mat-sys-on-surface);
+    letter-spacing: -0.5px;
+  }
+
+  .empty-subtitle {
+    max-width: 440px;
+    margin: 0 0 32px;
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--mat-sys-on-surface-variant);
+    opacity: 0.8;
+  }
+
+  .mt-button {
+    height: 48px;
+    padding: 0 32px;
+    font-weight: 700;
+    border-radius: 16px;
+  }
+}
+
+// ── Skeleton Animation ────────────────────────────────────────────────────────
+.skeleton {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    content: '';
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgb(255 255 255 / 0.05) 50%,
+        transparent 100%);
+    animation: shimmer 1.5s infinite;
+  }
+
+  .skeleton-line {
+    height: 16px;
+    background: var(--mat-sys-outline);
+    border-radius: 8px;
+    opacity: 0.3;
+
+    &.title {
+      width: 60%;
+      height: 24px;
+    }
+
+    &.short {
+      width: 40%;
+    }
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}

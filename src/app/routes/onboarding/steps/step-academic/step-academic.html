@@ -1,0 +1,289 @@
+<div class="step-container">
+  <div class="step-header">
+    <div class="step-icon-badge">🎓</div>
+    <h2 class="step-title">Academic Information</h2>
+    <p class="step-desc">Add your academic qualifications</p>
+  </div>
+
+  @if (isLoading()) {
+    <div class="skeleton-academic">
+      @for (i of [1, 2]; track i) {
+        <div class="skeleton-card">
+          <div class="skeleton-card__icon"></div>
+          <div class="skeleton-card__body">
+            <div class="skeleton-card__line"></div>
+            <div class="skeleton-card__line skeleton-card__line--short"></div>
+            <div class="skeleton-card__meta">
+              <div class="skeleton-card__tag"></div>
+              <div class="skeleton-card__tag"></div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  } @else {
+    <!-- ── Primary academic card ─────────────────────────── -->
+    @if (primaryAcademic()) {
+      <div class="degree-card degree-card--primary">
+        <div class="degree-card__badge">
+          <span>Primary</span>
+        </div>
+        <div class="degree-card__icon">🏛️</div>
+        <div class="degree-card__body">
+          <span class="degree-card__program">{{ primaryAcademic()!.programName }}</span>
+          <span class="degree-card__institution">{{ primaryAcademic()!.institutionName }}</span>
+          <div class="degree-card__meta">
+            @if (primaryAcademic()!.major) {
+              <span class="degree-card__tag">{{ primaryAcademic()!.major }}</span>
+            }
+            @if (primaryAcademic()!.gradeLevel) {
+              <span class="degree-card__tag">Grade {{ primaryAcademic()!.gradeLevel }}</span>
+            }
+            <span class="degree-card__tag">
+              {{ isHighSchool() ? 'Batch: ' : 'Year: ' }}{{ primaryAcademic()!.batchYear }}
+            </span>
+          </div>
+        </div>
+        <div class="degree-card__actions">
+          <button
+            type="button"
+            class="degree-icon-btn"
+            (click)="editRecord(primaryAcademic()!)"
+            title="Edit"
+            [disabled]="isSaving()"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            type="button"
+            class="degree-icon-btn degree-icon-btn--remove"
+            (click)="deleteRecord(primaryAcademic()!.id)"
+            title="Remove"
+            [disabled]="isSaving()"
+          >
+            <mat-icon>delete_outline</mat-icon>
+          </button>
+        </div>
+      </div>
+    }
+
+    <!-- ── Academic history cards ────────────────────────── -->
+    @for (rec of academicHistory(); track rec.id) {
+      <div class="degree-card">
+        <div class="degree-card__icon">🏛️</div>
+        <div class="degree-card__body">
+          <span class="degree-card__program">{{ rec.programName }}</span>
+          <span class="degree-card__institution">{{ rec.institutionName }}</span>
+          <div class="degree-card__meta">
+            @if (rec.major) {
+              <span class="degree-card__tag">{{ rec.major }}</span>
+            }
+            @if (rec.gradeLevel) {
+              <span class="degree-card__tag">Grade {{ rec.gradeLevel }}</span>
+            }
+            <span class="degree-card__tag">
+              {{ isHighSchool() ? 'Batch: ' : 'Year: ' }}{{ rec.batchYear }}
+            </span>
+          </div>
+        </div>
+        <div class="degree-card__actions">
+          <button
+            type="button"
+            class="degree-icon-btn"
+            (click)="makePrimary(rec.id)"
+            title="Set as primary"
+            [disabled]="isSaving()"
+          >
+            <mat-icon>star_outline</mat-icon>
+          </button>
+          <button
+            type="button"
+            class="degree-icon-btn"
+            (click)="editRecord(rec)"
+            title="Edit"
+            [disabled]="isSaving()"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            type="button"
+            class="degree-icon-btn degree-icon-btn--remove"
+            (click)="deleteRecord(rec.id)"
+            title="Remove"
+            [disabled]="isSaving()"
+          >
+            <mat-icon>delete_outline</mat-icon>
+          </button>
+        </div>
+      </div>
+    }
+
+    <!-- ── "Add Another" trigger ─────────────────────────── -->
+    @if (!showForm() && hasRecords()) {
+      <button type="button" class="add-degree-btn" (click)="openAddForm()" [disabled]="isSaving()">
+        <mat-icon>add_circle_outline</mat-icon>
+        Add Another Record
+      </button>
+    }
+
+    <!-- ── Degree form ────────────────────────────────────── -->
+    @if (showForm()) {
+      <div class="degree-form-panel">
+        <div class="degree-form-panel__header">
+          <mat-icon>school</mat-icon>
+          <span>
+            {{
+              editingId() ? 'Edit Record' : hasRecords() ? 'Add Another Record' : 'Academic Details'
+            }}
+          </span>
+        </div>
+
+        <form [formGroup]="degreeForm" class="step-form" style="gap: 8px">
+          <!-- Institution -->
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="step-field">
+              <mat-label>
+                {{ isHighSchool() ? 'School / Institution' : 'University / Institution' }}
+              </mat-label>
+              <mat-select formControlName="institutionId">
+                @for (inst of institutions(); track inst.id) {
+                  <mat-option [value]="inst.id">{{ inst.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- Program -->
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="step-field">
+              <mat-label>
+                {{ isHighSchool() ? 'Degree / Certificate' : 'Degree / Program' }}
+              </mat-label>
+              <mat-select formControlName="institutionProgramId">
+                @for (p of programs(); track p.id) {
+                  <mat-option [value]="p.id">{{ p.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row two-cols">
+            <!-- Grade Level (HS Only) -->
+            @if (isHighSchool()) {
+              <mat-form-field appearance="outline" class="step-field">
+                <mat-label>Grade</mat-label>
+                <mat-select formControlName="gradeLevel">
+                  @for (y of gradeLevels(); track y.value) {
+                    <mat-option [value]="y.value">{{ y.name }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            }
+
+            <!-- University Year or HS Batch Year -->
+            @if (!isHighSchool()) {
+              <mat-form-field appearance="outline" class="step-field">
+                <mat-label>Batch Year</mat-label>
+                <mat-select formControlName="batchYear">
+                  @for (y of universityYears; track y.value) {
+                    <mat-option [value]="y.value">{{ y.label }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            } @else {
+              <mat-form-field appearance="outline" class="step-field">
+                <mat-label>Batch Year</mat-label>
+                <mat-select formControlName="batchYear">
+                  @for (year of batchYears(); track year) {
+                    <mat-option [value]="year">{{ year }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            }
+          </div>
+
+          <!-- Major (non-HS only) -->
+          @if (!isHighSchool()) {
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="step-field">
+                <mat-label>Major / Field of Study</mat-label>
+                <input matInput formControlName="major" placeholder="e.g. Computer Science" />
+              </mat-form-field>
+            </div>
+          }
+
+          <!-- ── Document Upload (UI only) ──────────────────────── -->
+          <div class="doc-upload-section">
+            <p class="doc-upload-section__title">
+              <mat-icon>upload_file</mat-icon>
+              Supporting Document
+              <span class="doc-upload-section__optional">(optional)</span>
+            </p>
+            <label class="file-upload-area" for="doc-academic">
+              <mat-icon class="file-upload-area__icon">description</mat-icon>
+              <span class="file-upload-area__text">
+                Click to upload transcript, certificate or result card
+              </span>
+              <span class="file-upload-area__name">No file chosen</span>
+              <input
+                id="doc-academic"
+                class="file-input-hidden"
+                type="file"
+                accept=".pdf,.jpg,.jpeg,.png"
+              />
+            </label>
+          </div>
+
+          <!-- Actions -->
+          <div class="degree-form-actions">
+            @if (hasRecords() || editingId()) {
+              <button
+                type="button"
+                class="btn-cancel"
+                (click)="cancelForm()"
+                [disabled]="isSaving()"
+              >
+                Cancel
+              </button>
+            }
+            <button
+              type="button"
+              class="btn-add-degree"
+              (click)="saveRecord()"
+              [disabled]="isSaving() || degreeForm.invalid"
+            >
+              @if (isSaving()) {
+                <mat-spinner diameter="18" class="btn-spinner" />
+                Saving…
+              } @else {
+                <ng-container>
+                  <mat-icon>{{ editingId() ? 'save' : 'add' }}</mat-icon>
+                  {{ editingId() ? 'Update' : 'Save Record' }}
+                </ng-container>
+              }
+            </button>
+          </div>
+        </form>
+      </div>
+    }
+  }
+
+  <!-- Step navigation -->
+
+  <div class="step-actions">
+    <button type="button" matButton class="btn-back" (click)="back.emit()" [disabled]="isSaving()">
+      <mat-icon>arrow_back</mat-icon>
+      Back
+    </button>
+    <button
+      type="button"
+      matButton="filled"
+      class="btn-next"
+      [disabled]="!hasRecords() || isSaving()"
+      (click)="submit()"
+    >
+      Continue
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </div>
+</div>

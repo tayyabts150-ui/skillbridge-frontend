@@ -1,0 +1,48 @@
+.matero-page-header {
+  display: block;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+  color: rgb(255 255 255 / .87);
+  background: linear-gradient(135deg,
+      rgb(from var(--mat-sys-primary) r g b / 0.15) 0%,
+      rgb(from var(--mat-sys-primary) r g b / 0.05) 100%);
+  border: 1px solid var(--mat-sys-outline);
+  // border-radius: var(--mat-sys-corner-medium);
+  border-radius: var(--radius-2xl);
+  backdrop-filter: blur(12px);
+
+  .theme-dark & {
+    background: linear-gradient(135deg,
+        rgb(from var(--mat-sys-primary) r g b / 0.1) 0%,
+        rgb(from var(--mat-sys-surface-container) r g b / 0.4) 100%);
+
+    .matero-breadcrumb {
+      margin-top: 0.5rem;
+      margin-bottom: 0;
+    }
+  }
+
+  .matero-page-title {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--mat-sys-on-surface);
+    letter-spacing: -0.03em;
+
+    small {
+      display: block;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--mat-sys-on-surface-variant);
+      letter-spacing: normal;
+      opacity: 0.8;
+      -webkit-text-fill-color: var(--mat-sys-on-surface-variant);
+    }
+  }
+
+  .matero-page-header-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+}

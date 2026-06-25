@@ -1,0 +1,38 @@
+@use '../../../styles/grid/breakpoints';
+
+.matero-header {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  display: block;
+  padding: 0 1.5rem;
+  background-color: transparent !important;
+  box-shadow: none !important;
+
+  @include breakpoints.bp-lt(small) {
+    padding: 0 1rem;
+    background-color: var(--mat-sys-surface-container-lowest) !important;
+    backdrop-filter: blur(12px);
+  }
+}
+
+.header-toolbar {
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 16px !important;
+  background-color: transparent !important;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  mat-icon {
+    vertical-align: baseline;
+  }
+}
+
+.menu-toggle {
+  margin-right: 8px;
+}

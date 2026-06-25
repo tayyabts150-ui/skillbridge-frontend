@@ -1,0 +1,147 @@
+<div class="step-container">
+  <div class="step-header">
+    <div class="step-icon-badge">⚡</div>
+    <h2 class="step-title">Skills & Interests</h2>
+    <p class="step-desc">
+      Select everything that resonates — we use this to match you with careers
+    </p>
+  </div>
+
+  @if (isLoading()) {
+    <div class="skeleton-skills">
+      <div class="skeleton-section">
+        <div class="skeleton-header"></div>
+        <div class="skeleton-chips">
+          @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track i) {
+            <div class="skeleton-chip"></div>
+          }
+        </div>
+      </div>
+      <div class="skeleton-section">
+        <div class="skeleton-header"></div>
+        <div class="skeleton-grid">
+          @for (i of [1, 2, 3, 4]; track i) {
+            <div class="skeleton-card"></div>
+          }
+        </div>
+      </div>
+    </div>
+  } @else {
+    <!-- Skills -->
+    <section class="section">
+      <div class="section-header">
+        <mat-icon class="section-icon">code</mat-icon>
+        <h3 class="section-title">Your Skills</h3>
+        <span class="section-badge">{{ selectedSkillIds().size }} selected</span>
+      </div>
+      <div class="chip-grid">
+        @for (skill of allSkills(); track skill.id) {
+          <button
+            type="button"
+            class="skill-chip"
+            [class.skill-chip--selected]="selectedSkillIds().has(skill.id)"
+            (click)="toggleSkill(skill.id)"
+          >
+            @if (selectedSkillIds().has(skill.id)) {
+              <mat-icon class="chip-tick">check</mat-icon>
+            }
+            {{ skill.name }}
+          </button>
+        }
+      </div>
+    </section>
+
+    <!-- Career Interests -->
+    <section class="section">
+      <div class="section-header">
+        <mat-icon class="section-icon">explore</mat-icon>
+        <h3 class="section-title">Career Interests</h3>
+        <span class="section-badge">{{ selectedInterestIds().size }} selected</span>
+      </div>
+      <div class="interest-grid">
+        @for (interest of allInterests(); track interest.id) {
+          <button
+            type="button"
+            class="interest-card"
+            [class.interest-card--selected]="selectedInterestIds().has(interest.id)"
+            (click)="toggleInterest(interest.id)"
+          >
+            @if (selectedInterestIds().has(interest.id)) {
+              <mat-icon class="interest-tick">check_circle</mat-icon>
+            }
+            <mat-icon class="interest-card__icon">{{ interest.icon }}</mat-icon>
+            <span class="interest-card__label">{{ interest.name }}</span>
+          </button>
+        }
+      </div>
+    </section>
+
+    <!-- Course Skills (optional) -->
+    <section class="section">
+      <div class="section-header">
+        <mat-icon class="section-icon">school</mat-icon>
+        <h3 class="section-title">
+          Course-Based Skills
+          <span class="optional-tag">optional</span>
+        </h3>
+      </div>
+      <div class="chip-input-wrapper">
+        <input
+          class="chip-input"
+          placeholder="e.g. Digital Signal Processing"
+          [ngModel]="courseInput()"
+          (ngModelChange)="courseInput.set($event)"
+          (keydown.enter)="$event.preventDefault(); addCourseSkill(courseInput())"
+        />
+        <button type="button" class="chip-add-btn" (click)="addCourseSkill(courseInput())">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+      <div class="chip-list">
+        @for (s of courseSkills(); track s) {
+          <span class="chip">
+            {{ s }}
+            <button type="button" class="chip__remove" (click)="removeCourseSkill(s)">×</button>
+          </span>
+        }
+      </div>
+    </section>
+
+    <!-- Actions -->
+    <div class="step-actions">
+      <button
+        type="button"
+        matButton
+        class="btn-back"
+        (click)="back.emit()"
+        [disabled]="isSaving()"
+      >
+        <mat-icon>arrow_back</mat-icon>
+        Back
+      </button>
+      <div style="flex: 1"></div>
+      <button type="button" matButton class="btn-skip" (click)="skip()" [disabled]="isSaving()">
+        Skip this step
+      </button>
+      <button
+        type="button"
+        matButton="filled"
+        class="btn-next"
+        [disabled]="
+          (selectedSkillIds().size === 0 && selectedInterestIds().size === 0) || isSaving()
+        "
+        (click)="submit()"
+      >
+        @if (isSaving()) {
+          <mat-spinner diameter="18" class="btn-spinner" />
+          Saving…
+        } @else {
+          <ng-container>
+            Continue
+            <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+          </ng-container>
+        }
+      </button>
+    </div>
+  }
+</div>

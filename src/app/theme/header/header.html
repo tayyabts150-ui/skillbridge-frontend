@@ -1,0 +1,23 @@
+<mat-toolbar class="header-toolbar">
+  @if (showToggle()) {
+    <button mat-icon-button class="menu-toggle" (click)="toggleSidenav.emit()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  }
+
+  @if (showBranding()) {
+    <app-branding />
+  }
+
+  <span class="flex-fill"></span>
+
+  <div class="header-actions">
+    <button mat-icon-button (click)="toggleTheme()" matTooltip="Toggle Theme">
+      <mat-icon>{{ options.theme === 'dark' ? 'wb_sunny' : 'brightness_2' }}</mat-icon>
+    </button>
+
+    <button mat-icon-button (click)="toggleFullscreen()" matTooltip="Toggle Fullscreen">
+      <mat-icon>fullscreen</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>

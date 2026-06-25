@@ -1,0 +1,63 @@
+
+<div class="cc-chat" [class.is-open]="isOpen()">
+  <button class="cc-toggle" type="button" (click)="toggle()">
+    <span>💬</span>
+    <span>Ask the assistant</span>
+  </button>
+
+  <section class="cc-panel">
+    <header class="cc-head">
+      <div class="cc-head-info">
+        <span class="cc-avatar">🧭</span>
+        <div>
+          <strong>Career Assistant</strong>
+          <small>Ask about any job or career</small>
+        </div>
+      </div>
+      <button class="cc-close" type="button" (click)="close()">×</button>
+    </header>
+
+    <div class="cc-messages">
+      @for (msg of messages(); track $index) {
+        <div class="cc-msg" [class.cc-msg--user]="msg.role === 'user'" [class.cc-msg--assistant]="msg.role === 'assistant'">
+          <div class="cc-bubble">{{ msg.content }}</div>
+        </div>
+      }
+
+      @if (messages().length === 1) {
+        <div class="cc-chips">
+          <button type="button" (click)="send('What does a Web Developer do?')">
+            What does a Web Developer do?
+          </button>
+          <button type="button" (click)="send('Skills I need to get started')">
+            Skills I need to get started
+          </button>
+          <button type="button" (click)="send('How do I prepare for interviews?')">
+            How do I prepare for interviews?
+          </button>
+        </div>
+      }
+
+      @if (isBusy()) {
+        <div class="cc-msg cc-msg--assistant">
+          <div class="cc-bubble">Typing...</div>
+        </div>
+      }
+    </div>
+
+    <form class="cc-form" (submit)="$event.preventDefault(); send()">
+      <textarea
+        class="cc-input"
+        rows="1"
+        placeholder="Type your question…"
+        maxlength="2000"
+        [(ngModel)]="input"
+        name="chatInput"
+        (keydown)="onEnter($event)"
+        [disabled]="isBusy()"
+      ></textarea>
+
+      <button class="cc-send" type="submit" [disabled]="isBusy()">➤</button>
+    </form>
+  </section>
+</div>

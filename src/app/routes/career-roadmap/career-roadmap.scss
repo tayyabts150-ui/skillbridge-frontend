@@ -1,0 +1,421 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap");
+
+:host {
+  display: block;
+
+  /* ---- theme tokens (your SkillBridge teal palette) ---- */
+  --bg-0: #061E22;          /* darkest background */
+  --bg-1: #062529;          /* secondary background */
+  --accent: #0E878D;        /* bright teal accent */
+  --accent-2: #1E676C;      /* secondary teal */
+
+  --glass: rgba(30, 103, 108, 0.10);
+  --glass-strong: rgba(30, 103, 108, 0.18);
+  --border: rgba(14, 135, 141, 0.30);
+  --border-soft: rgba(14, 135, 141, 0.16);
+  --text: #f1f7f6;
+  --text-sub: #8aa9a9;
+  --text-body: #c4d8d6;
+  --accent-grad: linear-gradient(135deg, #0E878D 0%, #1E676C 100%);
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+/* =========================================================
+   WRAPPER — dark teal aurora canvas + faint dot grid
+   ========================================================= */
+.roadmap-wrapper {
+  position: relative;
+  overflow: hidden;
+  padding: 56px 24px 72px;
+  min-height: 100%;
+  font-family: var(--font-body);
+  color: var(--text-body);
+  background:
+    radial-gradient(900px 600px at 12% -8%, rgba(14, 135, 141, 0.20), transparent 60%),
+    radial-gradient(820px 560px at 92% 4%, rgba(30, 103, 108, 0.20), transparent 60%),
+    radial-gradient(760px 620px at 78% 108%, rgba(14, 135, 141, 0.14), transparent 60%),
+    linear-gradient(160deg, var(--bg-1) 0%, var(--bg-0) 100%);
+}
+
+.roadmap-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(14, 135, 141, 0.07) 1px, transparent 1px);
+  background-size: 22px 22px;
+  -webkit-mask-image: radial-gradient(circle at 50% 0%, #000 0%, transparent 70%);
+          mask-image: radial-gradient(circle at 50% 0%, #000 0%, transparent 70%);
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.roadmap-wrapper > * {
+  position: relative;
+  z-index: 1;
+  max-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* =========================================================
+   RESULT HEAD
+   ========================================================= */
+.result-head {
+  margin-bottom: 40px;
+
+  .result-label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #cfe6e4;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: var(--glass);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    &::before {
+      content: "";
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      margin-right: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px 1px var(--accent);
+      vertical-align: middle;
+    }
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    margin: 18px 0 0;
+    font-size: 46px;
+    line-height: 1.05;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+}
+
+/* =========================================================
+   GRID
+   ========================================================= */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.span-2 {
+  grid-column: span 2;
+}
+
+.grid mat-card {
+  animation: card-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.grid mat-card:nth-child(1) { animation-delay: 0.04s; }
+.grid mat-card:nth-child(2) { animation-delay: 0.10s; }
+.grid mat-card:nth-child(3) { animation-delay: 0.16s; }
+.grid mat-card:nth-child(4) { animation-delay: 0.22s; }
+
+@keyframes card-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================================
+   GLASS CARDS (Material override, scoped to :host)
+   ========================================================= */
+:host ::ng-deep mat-card,
+:host ::ng-deep .mat-mdc-card {
+  position: relative;
+  overflow: hidden;
+  color: var(--text-body) !important;
+  background: var(--glass) !important;
+  border: 1px solid var(--border);
+  border-radius: 22px !important;
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(14, 135, 141, 0.14) !important;
+  transition:
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
+}
+
+:host ::ng-deep mat-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(14, 135, 141, 0.55), transparent);
+  pointer-events: none;
+}
+
+:host ::ng-deep mat-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(14, 135, 141, 0.55);
+  box-shadow:
+    0 26px 60px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(14, 135, 141, 0.18),
+    inset 0 1px 0 rgba(14, 135, 141, 0.20) !important;
+}
+
+:host ::ng-deep mat-card-content,
+:host ::ng-deep .mat-mdc-card-content {
+  padding: 28px 30px !important;
+}
+
+/* =========================================================
+   TYPOGRAPHY INSIDE CARDS
+   ========================================================= */
+h2 {
+  margin: 0 0 20px;
+  padding-bottom: 16px;
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.learn-col h3 {
+  margin: 0 0 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  background: var(--accent-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* =========================================================
+   LISTS
+   ========================================================= */
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+ul li {
+  position: relative;
+  padding: 7px 0 7px 22px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--text-body);
+}
+
+ul li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 13px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-grad);
+  box-shadow: 0 0 8px rgba(14, 135, 141, 0.7);
+}
+
+/* Role Basics — ordered list, numbered squares */
+ol {
+  counter-reset: basic;
+}
+
+ol li {
+  counter-increment: basic;
+  position: relative;
+  padding: 9px 0 9px 40px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--text-body);
+}
+
+ol li::before {
+  content: counter(basic);
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #061E22;
+  border-radius: 9px;
+  background: var(--accent-grad);
+  box-shadow: 0 4px 12px rgba(14, 135, 141, 0.35);
+}
+
+/* =========================================================
+   LEARN GRID
+   ========================================================= */
+.learn-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px;
+}
+
+/* =========================================================
+   LINK CARDS (certifications + job listings)
+   ========================================================= */
+.link {
+  position: relative;
+  display: block;
+  padding: 16px 18px;
+  margin-bottom: 12px;
+  border: 1px solid var(--border-soft);
+  border-radius: 15px;
+  text-decoration: none;
+  color: inherit;
+  background: rgba(30, 103, 108, 0.06);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+
+  strong {
+    display: block;
+    padding-right: 26px;
+    font-size: 15.5px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  span {
+    display: block;
+    margin-top: 4px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  p {
+    margin: 8px 0 0;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--text-sub);
+  }
+
+  &::after {
+    content: "→";
+    position: absolute;
+    top: 15px;
+    right: 16px;
+    font-size: 18px;
+    color: var(--accent);
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: all 0.3s ease;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    background: var(--glass-strong);
+    border-color: rgba(14, 135, 141, 0.5);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(14, 135, 141, 0.12);
+  }
+
+  &:hover::after {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* =========================================================
+   LOADING / ERROR STATES
+   ========================================================= */
+.state-card {
+  max-width: 520px;
+  margin: 40px auto;
+  text-align: center;
+
+  h2 {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 8px;
+  }
+
+  p {
+    margin: 0;
+    color: var(--text-sub);
+    font-size: 14.5px;
+  }
+}
+
+.state-card--error h2 {
+  color: #fca5a5;
+}
+
+.state-spinner {
+  width: 38px;
+  height: 38px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  border: 3px solid rgba(14, 135, 141, 0.18);
+  border-top-color: var(--accent);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 768px) {
+  .roadmap-wrapper {
+    padding: 36px 16px 48px;
+  }
+
+  .result-head h1 {
+    font-size: 34px;
+  }
+
+  .grid,
+  .learn-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .span-2 {
+    grid-column: span 1;
+  }
+}
+
+/* =========================================================
+   ACCESSIBILITY — respect reduced motion
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .grid mat-card,
+  .state-spinner,
+  .link,
+  :host ::ng-deep mat-card {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+

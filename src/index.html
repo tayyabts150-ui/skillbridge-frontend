@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SkillBridge</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="fonts/Material_Icons.css">
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap">
+  <style type="text/css">
+    .global-loader {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      background-color: #fff;
+      opacity: 1;
+      transition: opacity .5s ease-in-out;
+    }
+    .global-loader-fade-out {
+      opacity: 0;
+    }
+    .global-loader-hidden {
+      display: none;
+    }
+    .global-loader h1 {
+      font-family: "Helvetica Neue", Helvetica, sans-serif;
+      font-weight: normal;
+      font-size: 1.5rem;
+      letter-spacing: .04rem;
+      white-space: pre;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-image:
+        repeating-linear-gradient(
+          to right,
+          #f44336,
+          #9c27b0,
+          #3f51b5,
+          #03a9f4,
+          #009688,
+          #8bc34a,
+          #ffeb3b,
+          #ff9800
+        );
+      background-size: 750% auto;
+      background-position: 0 100%;
+      animation: gradient 20s infinite;
+      animation-fill-mode: forwards;
+      animation-timing-function: linear;
+    }
+    @keyframes gradient {
+      0% {
+        background-position: 0 0;
+      }
+      100% {
+        background-position: -750% 0;
+      }
+    }
+
+    /* ===== Google Translate: hide default UI completely, we render our own ===== */
+
+    /* Hide Google's entire default widget visually but keep it functional in the DOM */
+    #google_translate_element {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      overflow: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      top: -9999px !important;
+      left: -9999px !important;
+    }
+
+    /* Remove Google top banner / iframe that pushes page content down */
+    .goog-te-banner-frame.skiptranslate,
+    body > .skiptranslate:first-child,
+    iframe.goog-te-banner-frame {
+      display: none !important;
+      visibility: hidden !important;
+      height: 0 !important;
+    }
+
+    html body {
+      top: 0px !important;
+      position: static !important;
+    }
+
+    /* Hide the yellow/orange highlight Google adds around translated text */
+    .goog-text-highlight {
+      background: none !important;
+      box-shadow: none !important;
+    }
+
+    /* ===== Our custom translator button + dropdown ===== */
+
+    #custom-translate {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 999999;
+      font-family: "Roboto", "Helvetica Neue", Helvetica, sans-serif;
+      user-select: none;
+      display: flex;
+      align-items: center;
+    }
+
+    #custom-translate-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #0f2027;
+      border: 1px solid rgba(45, 212, 191, 0.4);
+      border-radius: 999px;
+      padding: 8px 14px;
+      cursor: pointer;
+      color: #e5f7f5;
+      font-size: 13px;
+      line-height: 1;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+
+    #custom-translate-btn:hover {
+      border-color: rgba(45, 212, 191, 0.8);
+      box-shadow: 0 4px 18px rgba(45, 212, 191, 0.3);
+    }
+
+    #custom-translate-btn span {
+      display: inline-flex;
+      align-items: center;
+      line-height: 1;
+    }
+
+    #custom-translate-btn svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      display: block;
+      color: #2dd4bf;
+    }
+
+    #custom-translate-btn .ct-arrow {
+      width: 10px;
+      height: 10px;
+      margin-left: 2px;
+      color: #8fb6b2;
+      transition: transform .2s ease;
+    }
+
+    #custom-translate.open #custom-translate-btn .ct-arrow {
+      transform: rotate(180deg);
+    }
+
+    #custom-translate-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      min-width: 150px;
+      background: #0f2027;
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+      padding: 4px;
+    }
+
+    #custom-translate.open #custom-translate-menu {
+      display: block;
+    }
+
+    #custom-translate-menu button {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      color: #e5f7f5;
+      font-size: 13px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background-color .15s ease;
+    }
+
+    #custom-translate-menu button:hover {
+      background-color: rgba(45, 212, 191, 0.15);
+    }
+
+    #custom-translate-menu button.active {
+      color: #2dd4bf;
+      font-weight: 500;
+    }
+
+    @media (max-width: 480px) {
+      #custom-translate {
+        top: 10px;
+        right: 10px;
+      }
+      #custom-translate-btn {
+        padding: 6px 10px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hidden Google Translate engine (kept in DOM, never shown) -->
+  <div id="google_translate_element"></div>
+
+  <!-- Our custom translator button + dropdown -->
+  <div id="custom-translate">
+    <button id="custom-translate-btn" type="button" aria-haspopup="listbox" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="2" y1="12" x2="22" y2="12"></line>
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+      </svg>
+      <span id="custom-translate-label">English</span>
+      <svg class="ct-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </button>
+    <div id="custom-translate-menu" role="listbox">
+      <button type="button" data-lang="en" class="active">English</button>
+      <button type="button" data-lang="ur">اردو (Urdu)</button>
+      <button type="button" data-lang="sd">سنڌي (Sindhi)</button>
+    </div>
+  </div>
+
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement(
+      {
+        pageLanguage: 'en',
+        includedLanguages: 'en,ur,sd',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      },
+      'google_translate_element'
+    );
+  }
+</script>
+<script
+  type="text/javascript"
+  src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+</script>
+<script type="text/javascript">
+  (function () {
+    var wrapper = document.getElementById('custom-translate');
+    var btn = document.getElementById('custom-translate-btn');
+    var label = document.getElementById('custom-translate-label');
+    var menu = document.getElementById('custom-translate-menu');
+    var langNames = { en: 'English', ur: 'اردو', sd: 'سنڌي' };
+
+    // Reads the saved cookie so we can restore selection on reload
+    function getCookie(name) {
+      var match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+      return match ? decodeURIComponent(match.pop()) : '';
+    }
+
+    function setSelectedLang(code) {
+      label.textContent = langNames[code] || 'English';
+      var buttons = menu.querySelectorAll('button');
+      buttons.forEach(function (b) {
+        b.classList.toggle('active', b.getAttribute('data-lang') === code);
+      });
+    }
+
+    function setCookie(name, value, days) {
+      var expires = '';
+      if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = '; expires=' + date.toUTCString();
+      }
+      document.cookie = name + '=' + value + expires + '; path=/';
+    }
+
+    function triggerGoogleTranslate(code) {
+      if (code === 'en') {
+        // Clear the translate cookie to restore the original page
+        setCookie('googtrans', '', -1);
+        // Also clear it without domain scoping issues (some browsers need both)
+        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        window.location.reload();
+        return;
+      }
+
+      var select = document.querySelector('#google_translate_element select.goog-te-combo');
+      if (select) {
+        // Widget is ready: set value and fire both native-style events Google listens for
+        select.value = code;
+        select.dispatchEvent(new Event('change'));
+        // Fallback: Google's official documented method, guaranteed to work
+        setCookie('googtrans', '/en/' + code, 1);
+        setTimeout(function () {
+          // If the inline change event didn't take effect, force reload as backup
+          var stillEnglish = document.documentElement.lang !== code &&
+                              !document.querySelector('.goog-text-highlight');
+          if (stillEnglish) {
+            window.location.reload();
+          }
+        }, 600);
+      } else {
+        // Widget not ready yet: just set cookie and reload, Google will pick it up on load
+        setCookie('googtrans', '/en/' + code, 1);
+        window.location.reload();
+      }
+    }
+
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var isOpen = wrapper.classList.toggle('open');
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    menu.querySelectorAll('button').forEach(function (item) {
+      item.addEventListener('click', function () {
+        var code = item.getAttribute('data-lang');
+        wrapper.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        setSelectedLang(code);
+        triggerGoogleTranslate(code);
+      });
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!wrapper.contains(e.target)) {
+        wrapper.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Restore previously selected language from Google's cookie on reload
+    var cookieLang = getCookie('googtrans');
+    if (cookieLang) {
+      var parts = cookieLang.split('/');
+      var savedCode = parts[2];
+      if (savedCode && langNames[savedCode]) {
+        setSelectedLang(savedCode);
+      }
+    }
+  })();
+</script>
+  <app-root></app-root>
+  <div id="globalLoader" class="global-loader">
+    <h1>LOADING</h1>
+  </div>
+  
+</body>
+</html>

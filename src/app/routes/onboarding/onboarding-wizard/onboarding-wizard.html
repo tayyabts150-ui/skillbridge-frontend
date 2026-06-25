@@ -1,0 +1,86 @@
+<div class="onboarding-page">
+  <!-- Ambient background glows -->
+  <div class="onboarding-glow onboarding-glow--tl"></div>
+  <div class="onboarding-glow onboarding-glow--br"></div>
+
+  <div class="onboarding-wrapper">
+    <!-- Header Brand -->
+    <div class="onboarding-brand">
+      <div class="onboarding-brand__icon">
+        <svg
+          width="28"
+          height="28"
+          viewBox="0 0 32 32"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect width="32" height="32" rx="10" fill="#0f969c" fill-opacity="0.2" />
+          <path
+            d="M8 20L14 10L20 16L24 12"
+            stroke="#0f969c"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <circle cx="24" cy="12" r="2" fill="#6da5c0" />
+        </svg>
+      </div>
+      <span class="onboarding-brand__name">SkillBridge</span>
+    </div>
+
+    <!-- Title -->
+    <div class="onboarding-header">
+      <h1 class="onboarding-header__title">Let's set up your profile 🚀</h1>
+      <p class="onboarding-header__subtitle">
+        Complete these steps to unlock personalized career recommendations
+      </p>
+    </div>
+
+    <!-- Step Progress Bar -->
+    <div class="step-progress">
+      @for (step of steps; track step.label; let i = $index) {
+        <div
+          class="step-progress__item"
+          [class.active]="i === onboarding.currentStep()"
+          [class.done]="i < onboarding.currentStep()"
+        >
+          <div class="step-progress__circle">
+            @if (i < onboarding.currentStep()) {
+              <mat-icon class="step-done-icon">check</mat-icon>
+            } @else {
+              <mat-icon>{{ step.icon }}</mat-icon>
+            }
+          </div>
+          <div class="step-progress__meta">
+            <span class="step-progress__label">{{ step.label }}</span>
+            <span class="step-progress__desc">{{ step.description }}</span>
+          </div>
+        </div>
+        @if (i < steps.length - 1) {
+          <div class="step-progress__connector" [class.done]="i < onboarding.currentStep()"></div>
+        }
+      }
+    </div>
+
+    <!-- Step Content Card -->
+    <div class="onboarding-card">
+      @switch (onboarding.currentStep()) {
+        @case (0) {
+          <app-step-personal (saved)="onPersonalSaved($event)" />
+        }
+        @case (1) {
+          <app-step-academic (saved)="onAcademicSaved()" (back)="goBack()" />
+        }
+        @case (2) {
+          <app-step-skills (saved)="onSkillsSaved()" (back)="goBack()" />
+        }
+        @case (3) {
+          <app-step-psychology (saved)="onAssessmentSaved($event)" (back)="goBack()" />
+        }
+      }
+    </div>
+
+    <!-- Footer -->
+    <p class="onboarding-footer">Step {{ onboarding.currentStep() + 1 }} of {{ steps.length }}</p>
+  </div>
+</div>

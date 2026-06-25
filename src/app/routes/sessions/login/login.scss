@@ -1,0 +1,285 @@
+// =============================================================================
+// Login Page — SkillBridge Brand Theme
+// Uses CSS custom properties from _tailwind-theme.scss
+// =============================================================================
+
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+// ── Full-screen wrapper ────────────────────────────────────────────────────────
+.login-page {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  background: var(--mat-sys-surface);
+
+  // Subtle grid overlay
+  &::before {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    content: '';
+    background-image:
+      linear-gradient(rgb(from var(--mat-sys-primary) r g b / 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(from var(--mat-sys-primary) r g b / 0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  // Soft light-mode mesh background
+  &::after {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    content: '';
+    background:
+      radial-gradient(at 0% 0%, rgb(from var(--mat-sys-primary) r g b / 0.05) 0%, transparent 50%),
+      radial-gradient(at 100% 100%, rgb(from var(--mat-sys-primary) r g b / 0.05) 0%, transparent 50%);
+  }
+}
+
+// ── Glowing orb in background ─────────────────────────────────────────────────
+.login-glow {
+  position: absolute;
+  top: -10%;
+  right: -5%;
+  width: 600px;
+  height: 600px;
+  pointer-events: none;
+  background: radial-gradient(circle, rgb(from var(--mat-sys-primary) r g b / 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+// ── Centered column ───────────────────────────────────────────────────────────
+.login-card-wrapper {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 420px;
+  padding: 24px 16px;
+}
+
+// ── Brand logo row ────────────────────────────────────────────────────────────
+.login-brand {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 28px;
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background-color: var(--mat-sys-surface-container);
+    border: 1px solid var(--mat-sys-outline);
+    border-radius: 12px;
+  }
+
+  &__name {
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: var(--mat-sys-on-surface);
+    letter-spacing: -0.02em;
+  }
+}
+
+// ── Glassmorphic card ─────────────────────────────────────────────────────────
+.login-card {
+  width: 100%;
+  padding: 36px 32px;
+  background: var(--mat-sys-surface-container-high);
+  border: 1px solid var(--mat-sys-outline);
+  border-radius: 24px;
+  box-shadow: var(--shadow-premium);
+  backdrop-filter: blur(16px);
+  animation: card-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  &__header {
+    margin-bottom: 28px;
+    text-align: center;
+  }
+
+  &__title {
+    margin: 0 0 6px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--mat-sys-on-surface);
+    letter-spacing: -0.01em;
+  }
+
+  &__subtitle {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  &__content {
+    padding: 0 !important;
+  }
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// ── Form ──────────────────────────────────────────────────────────────────────
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group {
+  width: 100%;
+}
+
+// Angular Material form field overrides
+.login-field {
+  width: 100%;
+
+  // Label color
+  .mat-mdc-form-field-label,
+  .mdc-floating-label {
+    color: var(--mat-sys-on-surface-variant) !important;
+  }
+
+  // Input text
+  input.mat-mdc-input-element {
+    color: var(--mat-sys-on-surface) !important;
+    caret-color: var(--mat-sys-primary);
+  }
+
+  // Outline border (idle)
+  .mdc-notched-outline__leading,
+  .mdc-notched-outline__notch,
+  .mdc-notched-outline__trailing {
+    background-color: var(--mat-sys-surface-container-low);
+    border-color: var(--mat-sys-outline) !important;
+    transition: all 0.2s ease;
+  }
+
+  // Focused outline
+  &.mat-focused {
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      border-color: var(--mat-sys-primary) !important;
+      border-width: 2px !important;
+    }
+
+    .mdc-floating-label,
+    .mat-mdc-form-field-label {
+      color: var(--mat-sys-primary) !important;
+    }
+  }
+
+  // Error text
+  .mat-mdc-form-field-error {
+    color: var(--mat-sys-error, #ba1a1a);
+  }
+}
+
+// ── Remember me checkbox ──────────────────────────────────────────────────────
+.login-checkbox {
+  margin: 4px 0 12px;
+  font-size: 0.875rem;
+  color: var(--mat-sys-on-surface-variant);
+
+  &.mat-mdc-checkbox-checked .mdc-checkbox__background {
+    background-color: var(--mat-sys-primary) !important;
+    border-color: var(--mat-sys-primary) !important;
+  }
+}
+
+// ── Submit button ─────────────────────────────────────────────────────────────
+.login-btn {
+  width: 100%;
+  height: 48px;
+  margin-top: 8px;
+  margin-bottom: 20px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.025em;
+  cursor: pointer;
+  background: linear-gradient(135deg, #0f969c 0%, #0c7075 100%);
+  border: none;
+  border-radius: 12px;
+  box-shadow:
+    0 4px 12px rgb(15 150 156 / 0.3),
+    inset 0 1px 0 rgb(255 255 255 / 0.1);
+  transition: all 0.25s ease;
+
+  &:hover:not([disabled]) {
+    background: linear-gradient(135deg, #26b0b8 0%, #0f969c 100%);
+    box-shadow:
+      0 12px 28px rgb(15 150 156 / 0.45),
+      inset 0 1px 0 rgb(255 255 255 / 0.2);
+    transform: translateY(-2px);
+  }
+
+  &:active:not([disabled]) {
+    box-shadow: 0 2px 8px rgb(15 150 156 / 0.25);
+    transform: translateY(0);
+  }
+
+  &[disabled] {
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.4;
+  }
+}
+
+// ── Footer "create account" ───────────────────────────────────────────────────
+.login-footer {
+  font-size: 0.85rem;
+  color: rgb(109 165 192 / 0.7);
+  text-align: center;
+
+  &__link {
+    margin-left: 4px;
+    font-weight: 600;
+    color: #0f969c;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #6da5c0;
+      text-decoration: underline;
+    }
+  }
+}

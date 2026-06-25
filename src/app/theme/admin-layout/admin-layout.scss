@@ -1,0 +1,290 @@
+@use '@angular/material' as mat;
+@use '../../../styles/grid/breakpoints';
+
+.matero-container-wrap,
+.matero-container {
+  --mat-sidenav-content-background-color: transparent;
+
+  height: 100%;
+}
+
+.matero-sidenav {
+  --mat-sidenav-container-width: 5.5rem;
+
+  position: absolute;
+  top: 50% !important;
+  left: 1.5rem !important;
+  height: auto !important;
+  max-height: calc(100% - 4rem) !important;
+  overflow: visible !important;
+  background-color: rgb(255 255 255 / 0.4) !important;
+  border: 1px solid rgb(15 150 156 / 0.1) !important;
+  border-radius: 2rem !important;
+  box-shadow: 0 20px 50px rgb(5 22 26 / 0.1) !important;
+  backdrop-filter: blur(24px) !important;
+  transform: translateY(-50%) !important;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+
+  [dir='rtl'] & {
+    right: 1.5rem !important;
+    left: auto !important;
+  }
+
+  ::ng-deep .mat-sidenav-inner-container {
+    overflow: visible !important;
+  }
+
+  .theme-dark & {
+    background-color: rgb(5 22 26 / 0.4) !important;
+    border-color: rgb(224 244 245 / 0.1) !important;
+  }
+
+  &::before {
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    pointer-events: none;
+    content: '';
+    background: linear-gradient(to bottom, rgb(15 150 156 / 0.2), transparent, rgb(15 150 156 / 0.1));
+    border-radius: inherit;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+  }
+}
+
+// Layout control
+.matero-header-above {
+  .matero-container {
+    height: 100% !important;
+  }
+
+  .matero-sidebar-main {
+    height: 100% !important;
+    padding-top: 0.5rem;
+  }
+}
+
+.matero-content {
+  padding-right: 1.5rem;
+  padding-left: 9rem;
+  margin-left: 0 !important;
+  background-color: transparent;
+
+  [dir='rtl'] & {
+    padding-right: 9rem;
+    padding-left: 1.5rem;
+    margin-right: 0 !important;
+  }
+}
+
+// Layout control
+.matero-sidenav-collapsed {
+  .matero-sidenav {
+    width: var(--sidenav-collapsed-width);
+
+    .menu-caret,
+    .matero-user-panel-info {
+      visibility: hidden;
+      opacity: 0;
+    }
+
+    .menu-icon.submenu-icon {
+      opacity: 1;
+    }
+
+    .matero-user-panel-avatar {
+      transform: scale(0.6);
+    }
+
+  }
+
+  .matero-content {
+    padding-left: calc(var(--sidenav-collapsed-width) + 2rem);
+    margin-left: 0 !important;
+
+    [dir='rtl'] & {
+      padding-right: calc(var(--sidenav-collapsed-width) + 2rem);
+      padding-left: 0;
+      margin-right: 0 !important;
+    }
+  }
+}
+
+// Layout control
+.matero-navbar-top {
+  .matero-topmenu {
+    top: 0;
+  }
+
+  .matero-branding {
+    margin-left: 1rem;
+
+    [dir='rtl'] & {
+      margin-right: 1rem;
+      margin-left: auto;
+    }
+  }
+}
+
+// Layout control
+.matero-header-fixed {
+  .matero-header {
+    position: sticky;
+    top: 0;
+    margin: 0;
+    background-color: transparent !important;
+    background-color: rgb(255 255 255 / 0.5);
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: blur(12px);
+
+    .theme-dark & {
+      background-color: rgb(5 22 26 / 0.5);
+    }
+  }
+
+  .matero-topmenu {
+    top: var(--mat-toolbar-standard-height);
+
+    @include breakpoints.bp-lt(small) {
+      top: var(--mat-toolbar-mobile-height);
+    }
+  }
+}
+
+.matero-page-content {
+  position: relative;
+  min-height: calc(100vh - 4rem);
+  padding: var(--gutter);
+
+  .matero-header+&,
+  .matero-header-above &,
+  .matero-navbar-top & {
+    padding-top: 1rem;
+  }
+}
+
+.matero-notice-drawer {
+  width: 400px !important;
+  background-color: rgb(255 255 255 / 0.8) !important;
+  border-left: 1px solid rgb(15 150 156 / 0.1) !important;
+  box-shadow: -10px 0 50px rgb(5 22 26 / 0.1) !important;
+  backdrop-filter: blur(30px) !important;
+
+  .theme-dark & {
+    background-color: rgb(5 22 26 / 0.8) !important;
+    border-left: 1px solid rgb(224 244 245 / 0.1) !important;
+  }
+
+  [dir='rtl'] & {
+    border-right: 1px solid rgb(15 150 156 / 0.1) !important;
+    border-left: none !important;
+
+    .theme-dark & {
+      border-right: 1px solid rgb(224 244 245 / 0.1) !important;
+      border-left: none !important;
+    }
+  }
+}
+
+// ── Mobile Bottom Navigation ──────────────────────────────────────────────────
+@include breakpoints.bp-lt(small) {
+  .matero-sidenav {
+    display: none !important;
+  }
+
+  .matero-content {
+    padding-bottom: 100px !important;
+    padding-left: 0 !important;
+  }
+
+  .mobile-bottom-nav {
+    position: fixed;
+    right: 10px;
+    bottom: 1.25rem;
+    left: 10px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: calc(100% - 2rem);
+    padding: 0.75rem 1rem;
+    background: rgb(255 255 255 / 0.45);
+    border: 1px solid rgb(15 150 156 / 0.15);
+    border-radius: 2rem;
+    box-shadow: 0 12px 40px rgb(5 22 26 / 0.12);
+    backdrop-filter: blur(24px);
+
+    .theme-dark & {
+      background: rgb(5 22 26 / 0.45);
+      border-color: rgb(224 244 245 / 0.15);
+    }
+
+    .mobile-nav-logo {
+      display: flex;
+      align-items: center;
+      padding-right: 0.75rem;
+      margin-right: 1rem;
+      border-right: 1px solid rgb(15 150 156 / 0.15);
+
+      ::ng-deep img {
+        width: auto;
+        height: 24px;
+      }
+    }
+
+    .mobile-nav-items {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      justify-content: space-around;
+    }
+
+    .mobile-nav-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      align-items: center;
+      color: var(--mat-sys-on-surface-variant);
+      text-decoration: none;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+      mat-icon {
+        width: 20px;
+        height: 20px;
+        font-size: 20px;
+      }
+
+      span {
+        font-size: 0.65rem;
+        font-weight: 700;
+      }
+
+      &.active {
+        color: var(--mat-sys-primary);
+        opacity: 1;
+        transform: translateY(-2px);
+      }
+
+      &.logout {
+        color: #ef4444;
+
+        &:hover {
+          color: #f02020;
+        }
+      }
+    }
+  }
+
+  .welcome-banner {
+    padding: 1.5rem !important;
+    border-radius: 24px !important;
+
+    .welcome-title {
+      font-size: 1.5rem !important;
+    }
+  }
+}

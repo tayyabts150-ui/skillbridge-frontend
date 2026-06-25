@@ -1,0 +1,149 @@
+<div class="step-container">
+  <div class="step-header">
+    <div class="step-icon-badge">🙋</div>
+    <h2 class="step-title">Personal Information</h2>
+    <p class="step-desc">Tell us a little about yourself</p>
+  </div>
+
+  @if (isLoading()) {
+    <div class="skeleton-form">
+      <div class="skeleton-row two-cols">
+        <div class="skeleton-field"></div>
+        <div class="skeleton-field"></div>
+      </div>
+      <div class="skeleton-row">
+        <div class="skeleton-label"></div>
+        <div class="skeleton-radio-group">
+          <div class="skeleton-radio"></div>
+          <div class="skeleton-radio"></div>
+          <div class="skeleton-radio"></div>
+        </div>
+      </div>
+      <div class="skeleton-row">
+        <div class="skeleton-field"></div>
+      </div>
+      <div class="skeleton-row two-cols">
+        <div class="skeleton-field"></div>
+        <div class="skeleton-field"></div>
+      </div>
+      <div class="skeleton-row">
+        <div class="skeleton-field skeleton-field--large"></div>
+      </div>
+    </div>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="submit()" class="step-form">
+      <!-- Date of Birth + Country row -->
+      <div class="form-row two-cols">
+        <mat-form-field appearance="outline" class="step-field">
+          <mat-label>Date of Birth</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            formControlName="dateOfBirth"
+            placeholder="YYYY-MM-DD"
+            [max]="maxDate"
+          />
+          <mat-datepicker-toggle matIconSuffix [for]="picker" />
+          <mat-datepicker #picker />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="step-field">
+          <mat-label>Country / Region</mat-label>
+          <mat-select formControlName="country">
+            @for (c of countries; track c) {
+              <mat-option [value]="c">{{ c }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Gender -->
+      <div class="form-row mb-4">
+        <label for="form_gender" class="field-label">Gender</label>
+        <div class="radio-group">
+          @for (g of genders; track g.value) {
+            <button
+              type="button"
+              id="form_gender"
+              class="radio-card"
+              [class.selected]="form.get('gender')?.value === g.value"
+              (click)="form.get('gender')?.setValue(g.value)"
+              [disabled]="isSaving()"
+            >
+              @if (form.get('gender')?.value === g.value) {
+                <mat-icon class="radio-card__tick">check_circle</mat-icon>
+              }
+              <span class="radio-card__label">{{ g.label }}</span>
+            </button>
+          }
+        </div>
+        @if (form.get('gender')?.invalid && form.get('gender')?.touched) {
+          <p class="field-error">Please select your gender</p>
+        }
+      </div>
+
+      <!-- Education Level -->
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="step-field">
+          <mat-label>Education Level</mat-label>
+          <mat-select formControlName="educationLevel">
+            @for (level of educationLevels(); track level.educationLevelId) {
+              <mat-option [value]="level.educationLevelId">
+                {{ level.educationLevelName }}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Phone + City row -->
+      <div class="form-row two-cols">
+        <mat-form-field appearance="outline" class="step-field">
+          <mat-label>Phone Number</mat-label>
+          <input matInput formControlName="phoneNumber" placeholder="+92 300 0000000" type="tel" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="step-field">
+          <mat-label>City</mat-label>
+          <input matInput formControlName="city" placeholder="e.g. Karachi" />
+        </mat-form-field>
+      </div>
+
+      <!-- Bio -->
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="step-field">
+          <mat-label>
+            Short Bio
+            <span class="field-hint">(optional)</span>
+          </mat-label>
+          <textarea
+            matInput
+            formControlName="shortBio"
+            rows="3"
+            placeholder="Tell us a bit about yourself — your background, goals, or anything that defines you…"
+          ></textarea>
+        </mat-form-field>
+      </div>
+
+      <!-- Actions -->
+      <div class="step-actions">
+        <button
+          type="submit"
+          matButton="filled"
+          class="login-button btn-next"
+          [disabled]="isSaving()"
+        >
+          @if (isSaving()) {
+            <mat-spinner diameter="18" class="btn-spinner" />
+            Saving…
+          } @else {
+            <ng-container>
+              Continue
+              <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+            </ng-container>
+          }
+        </button>
+      </div>
+    </form>
+  }
+</div>
